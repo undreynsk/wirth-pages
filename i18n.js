@@ -98,6 +98,10 @@
       "download.statLicenseLabel": "Lizenz",
       "download.statPlatformLabel": "Plattform",
       "download.btn": "Download starten",
+      "download.more": "Weitere Downloads",
+      "download.examples": "Beispielanwendungen",
+      "download.dbScripts": "Datenbank-Skripte (Oracle / MySQL)",
+      "download.xmas": "Weihnachtsgruß 2024",
       "footer.copy": "Design &amp; Bilder © Copyright Wirthsim"
     },
 
@@ -168,6 +172,10 @@
       "download.statLicenseLabel": "License",
       "download.statPlatformLabel": "Platform",
       "download.btn": "Start download",
+      "download.more": "More downloads",
+      "download.examples": "Example applications",
+      "download.dbScripts": "Database scripts (Oracle / MySQL)",
+      "download.xmas": "Christmas greeting 2024",
       "footer.copy": "Design &amp; Images © Copyright Wirthsim"
     },
 
@@ -238,6 +246,10 @@
       "download.statLicenseLabel": "Licence",
       "download.statPlatformLabel": "Plateforme",
       "download.btn": "Démarrer le téléchargement",
+      "download.more": "Autres téléchargements",
+      "download.examples": "Applications d'exemple",
+      "download.dbScripts": "Scripts de base de données (Oracle / MySQL)",
+      "download.xmas": "Vœux de Noël 2024",
       "footer.copy": "Design &amp; images © Copyright Wirthsim"
     },
 
@@ -308,6 +320,10 @@
       "download.statLicenseLabel": "Licenza",
       "download.statPlatformLabel": "Piattaforma",
       "download.btn": "Avvia il download",
+      "download.more": "Altri download",
+      "download.examples": "Applicazioni di esempio",
+      "download.dbScripts": "Script di database (Oracle / MySQL)",
+      "download.xmas": "Auguri di Natale 2024",
       "footer.copy": "Design e immagini © Copyright Wirthsim"
     },
 
@@ -378,6 +394,10 @@
       "download.statLicenseLabel": "Лицензия",
       "download.statPlatformLabel": "Платформа",
       "download.btn": "Начать загрузку",
+      "download.more": "Другие загрузки",
+      "download.examples": "Примеры приложений",
+      "download.dbScripts": "Скрипты БД (Oracle / MySQL)",
+      "download.xmas": "Новогоднее поздравление 2024",
       "footer.copy": "Дизайн и изображения © Copyright Wirthsim"
     },
 
@@ -448,6 +468,10 @@
       "download.statLicenseLabel": "许可",
       "download.statPlatformLabel": "平台",
       "download.btn": "开始下载",
+      "download.more": "更多下载",
+      "download.examples": "示例应用",
+      "download.dbScripts": "数据库脚本 (Oracle / MySQL)",
+      "download.xmas": "2024 圣诞祝福",
       "footer.copy": "设计与图片 © 版权所有 Wirthsim"
     }
   };
