@@ -142,6 +142,11 @@
     #mobile-menu { display: none; }
     #mobile-menu.open { display: block; }
 
+    /* Language switcher dropdown */
+    [data-lang-menu] { display: none; }
+    [data-lang-menu].open { display: block; }
+    [data-lang-option][aria-current="true"] { color: #2563eb; font-weight: 600; }
+
     @media (max-width: 1023px) {
       .stat-item:nth-child(even) { border-right: none; }
       section[id] { padding-top: 3rem; padding-bottom: 3rem; }
@@ -173,24 +178,47 @@
           <div class="hidden w-9 h-9 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 items-center justify-center font-bold text-lg text-white">W</div>
           <div>
             <div class="font-bold text-lg tracking-tight text-slate-900">WirthSim</div>
-            <div class="text-xs text-slate-500 leading-none">Logistik Simulation</div>
+            <div class="text-xs text-slate-500 leading-none" data-i18n="header.tagline">Logistik Simulation</div>
           </div>
         </a>
 
         <!-- Desktop Nav -->
         <nav class="hidden lg:flex items-center gap-8 text-sm font-medium text-slate-600">
-          <a href="#" class="nav-link hover:text-slate-900 transition-colors">Home</a>
-          <a href="#features" class="nav-link hover:text-slate-900 transition-colors">Produkt</a>
-          <a href="#screenshot" class="nav-link hover:text-slate-900 transition-colors">Ansicht</a>
-          <a href="#training" class="nav-link hover:text-slate-900 transition-colors">Weiterbildung</a>
-          <a href="#news" class="nav-link hover:text-slate-900 transition-colors">Neuigkeiten</a>
+          <a href="#" class="nav-link hover:text-slate-900 transition-colors" data-i18n="nav.home">Home</a>
+          <a href="#features" class="nav-link hover:text-slate-900 transition-colors" data-i18n="nav.product">Produkt</a>
+          <a href="#screenshot" class="nav-link hover:text-slate-900 transition-colors" data-i18n="nav.view">Ansicht</a>
+          <a href="#training" class="nav-link hover:text-slate-900 transition-colors" data-i18n="nav.training">Weiterbildung</a>
+          <a href="#news" class="nav-link hover:text-slate-900 transition-colors" data-i18n="nav.news">Neuigkeiten</a>
         </nav>
 
-        <!-- CTA + Burger -->
-        <div class="flex items-center gap-4">
-          <a href="#download" class="hidden sm:inline-flex btn-primary px-5 py-2.5 rounded-xl text-sm font-semibold text-white">
+        <!-- CTA + Language + Burger -->
+        <div class="flex items-center gap-2 sm:gap-4">
+          <a href="#download" class="hidden sm:inline-flex btn-primary px-5 py-2.5 rounded-xl text-sm font-semibold text-white" data-i18n="nav.download">
             Download
           </a>
+
+          <!-- Language switcher -->
+          <div class="relative">
+            <button data-lang-toggle class="flex items-center gap-1.5 px-2.5 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors" aria-label="Sprache / Language">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.6 9h16.8M3.6 15h16.8M12 3a15 15 0 010 18M12 3a15 15 0 000 18"/>
+              </svg>
+              <span data-lang-current>DE</span>
+              <svg class="w-3 h-3 opacity-70" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </button>
+            <div data-lang-menu class="absolute right-0 mt-2 w-40 py-1 rounded-xl bg-white border border-slate-200 shadow-xl z-50">
+              <a href="#" data-lang-option="de" class="block px-4 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">Deutsch</a>
+              <a href="#" data-lang-option="en" class="block px-4 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">English</a>
+              <a href="#" data-lang-option="fr" class="block px-4 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">Français</a>
+              <a href="#" data-lang-option="it" class="block px-4 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">Italiano</a>
+              <a href="#" data-lang-option="ru" class="block px-4 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">Русский</a>
+              <a href="#" data-lang-option="zh" class="block px-4 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">中文</a>
+            </div>
+          </div>
+
           <button id="burger" class="lg:hidden p-2 text-slate-600 hover:text-slate-900" aria-label="Menu">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
@@ -203,12 +231,12 @@
     <!-- Mobile menu -->
     <div id="mobile-menu" class="lg:hidden border-t border-slate-100 bg-white">
       <div class="px-6 py-4 flex flex-col gap-4 text-sm font-medium text-slate-600">
-        <a href="#" class="hover:text-slate-900 transition-colors">Home</a>
-        <a href="#features" class="hover:text-slate-900 transition-colors">Produkt</a>
-        <a href="#screenshot" class="hover:text-slate-900 transition-colors">Ansicht</a>
-        <a href="#training" class="hover:text-slate-900 transition-colors">Weiterbildung</a>
-        <a href="#news" class="hover:text-slate-900 transition-colors">Neuigkeiten</a>
-        <a href="#download" class="btn-primary px-5 py-2.5 rounded-xl text-white text-center">Download</a>
+        <a href="#" class="hover:text-slate-900 transition-colors" data-i18n="nav.home">Home</a>
+        <a href="#features" class="hover:text-slate-900 transition-colors" data-i18n="nav.product">Produkt</a>
+        <a href="#screenshot" class="hover:text-slate-900 transition-colors" data-i18n="nav.view">Ansicht</a>
+        <a href="#training" class="hover:text-slate-900 transition-colors" data-i18n="nav.training">Weiterbildung</a>
+        <a href="#news" class="hover:text-slate-900 transition-colors" data-i18n="nav.news">Neuigkeiten</a>
+        <a href="#download" class="btn-primary px-5 py-2.5 rounded-xl text-white text-center" data-i18n="nav.download">Download</a>
       </div>
     </div>
   </header>
@@ -221,16 +249,16 @@
         <!-- Badge -->
         <div class="inline-flex items-center gap-2 glass rounded-full px-4 py-2 mb-8 badge-pulse">
           <div class="w-2 h-2 rounded-full bg-green-500"></div>
-          <span class="text-xs font-medium text-slate-600">Version 1.6.0 — Kostenlos &amp; Unbegrenzt</span>
+          <span class="text-xs font-medium text-slate-600" data-i18n="hero.badge">Version 1.6.0 — Kostenlos &amp; Unbegrenzt</span>
         </div>
 
-        <h1 class="text-3xl sm:text-5xl lg:text-7xl font-black leading-[1.05] mb-6 text-slate-900">
+        <h1 class="text-3xl sm:text-5xl lg:text-7xl font-black leading-[1.05] mb-6 text-slate-900" data-i18n="hero.title">
           Automatische<br>
           <span class="gradient-text">Logistiksysteme</span><br>
           simulieren
         </h1>
 
-        <p class="text-lg text-slate-600 leading-relaxed mb-10 max-w-2xl">
+        <p class="text-lg text-slate-600 leading-relaxed mb-10 max-w-2xl" data-i18n="hero.desc">
           WirthSim Professional ist eine leistungsstarke Freeware zur Simulation
           automatischer Logistiksysteme — modular, intuitiv und ohne Programmierkenntnisse
           bedienbar. Für Industrie, Bildung und Forschung.
@@ -241,14 +269,14 @@
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
             </svg>
-            Kostenlos herunterladen
+            <span data-i18n="hero.btnDownload">Kostenlos herunterladen</span>
           </a>
           <a href="#screenshot" class="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl font-semibold text-slate-700 text-base border border-slate-200 bg-white hover:border-blue-300 hover:text-blue-700 transition-all shadow-sm">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
               <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
-            Demo ansehen
+            <span data-i18n="hero.btnDemo">Demo ansehen</span>
           </a>
         </div>
 
@@ -257,7 +285,7 @@
 
     <!-- Scroll indicator -->
     <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-slate-400">
-      <span class="text-xs tracking-widest uppercase">Mehr entdecken</span>
+      <span class="text-xs tracking-widest uppercase" data-i18n="hero.scroll">Mehr entdecken</span>
       <div class="w-px h-8 bg-gradient-to-b from-slate-300 to-transparent"></div>
     </div>
   </section>
@@ -268,19 +296,19 @@
       <div class="grid grid-cols-2 lg:grid-cols-4">
         <div class="stat-item py-6 px-4 lg:py-10 lg:px-8 text-center">
           <div class="text-3xl lg:text-4xl font-black gradient-text mb-1">10.000+</div>
-          <div class="text-sm text-slate-500 font-medium">Anwender weltweit</div>
+          <div class="text-sm text-slate-500 font-medium" data-i18n="stats.users">Anwender weltweit</div>
         </div>
         <div class="stat-item py-6 px-4 lg:py-10 lg:px-8 text-center">
           <div class="text-3xl lg:text-4xl font-black gradient-text mb-1">100%</div>
-          <div class="text-sm text-slate-500 font-medium">Kostenlos</div>
+          <div class="text-sm text-slate-500 font-medium" data-i18n="stats.free">Kostenlos</div>
         </div>
         <div class="stat-item py-6 px-4 lg:py-10 lg:px-8 text-center">
           <div class="text-3xl lg:text-4xl font-black gradient-text mb-1">1.6.0</div>
-          <div class="text-sm text-slate-500 font-medium">Aktuelle Version</div>
+          <div class="text-sm text-slate-500 font-medium" data-i18n="stats.version">Aktuelle Version</div>
         </div>
         <div class="py-6 px-4 lg:py-10 lg:px-8 text-center">
           <div class="text-3xl lg:text-4xl font-black gradient-text mb-1">0</div>
-          <div class="text-sm text-slate-500 font-medium">Coding erforderlich</div>
+          <div class="text-sm text-slate-500 font-medium" data-i18n="stats.coding">Coding erforderlich</div>
         </div>
       </div>
     </div>
@@ -291,13 +319,13 @@
     <div class="max-w-7xl mx-auto px-6 lg:px-8">
 
       <div class="text-center mb-10 lg:mb-16">
-        <div class="inline-block glass rounded-full px-4 py-1.5 text-xs font-semibold text-blue-600 tracking-wider uppercase mb-4 border-blue-100" style="background:#eff6ff;border-color:#bfdbfe;">
+        <div class="inline-block glass rounded-full px-4 py-1.5 text-xs font-semibold text-blue-600 tracking-wider uppercase mb-4 border-blue-100" style="background:#eff6ff;border-color:#bfdbfe;" data-i18n="screenshot.badge">
           Software Ansicht
         </div>
-        <h2 class="text-3xl lg:text-5xl font-black mb-4 text-slate-900">
+        <h2 class="text-3xl lg:text-5xl font-black mb-4 text-slate-900" data-i18n="screenshot.title">
           Leistungsstark &amp; <span class="gradient-text">Intuitiv</span>
         </h2>
-        <p class="text-slate-600 max-w-xl mx-auto">
+        <p class="text-slate-600 max-w-xl mx-auto" data-i18n="screenshot.desc">
           Eine durchdachte Benutzeroberfläche, mit der Sie komplexe Logistiksysteme
           ohne Programmierkenntnisse modellieren und simulieren.
         </p>
@@ -339,7 +367,7 @@
               <path d="M8 5v14l11-7z"/>
             </svg>
           </div>
-          Videopräsentation ansehen
+          <span data-i18n="screenshot.video">Videopräsentation ansehen</span>
           <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
           </svg>
@@ -353,14 +381,14 @@
     <div class="max-w-7xl mx-auto px-6 lg:px-8">
 
       <div class="text-center mb-10 lg:mb-16">
-        <div class="inline-block rounded-full px-4 py-1.5 text-xs font-semibold text-purple-700 tracking-wider uppercase mb-4" style="background:#f3e8ff;border:1px solid #ddd6fe;">
+        <div class="inline-block rounded-full px-4 py-1.5 text-xs font-semibold text-purple-700 tracking-wider uppercase mb-4" style="background:#f3e8ff;border:1px solid #ddd6fe;" data-i18n="features.badge">
           Produktfeatures
         </div>
-        <h2 class="text-3xl lg:text-5xl font-black mb-4 text-slate-900">
+        <h2 class="text-3xl lg:text-5xl font-black mb-4 text-slate-900" data-i18n="features.title">
           Alles was Sie für die<br>
           <span class="gradient-text">Logistiksimulation</span> brauchen
         </h2>
-        <p class="text-slate-600 max-w-2xl mx-auto">
+        <p class="text-slate-600 max-w-2xl mx-auto" data-i18n="features.desc">
           WirthSim Professional deckt den gesamten Prozess der Modellierung,
           Simulation und Analyse automatischer Logistiksysteme ab.
         </p>
@@ -375,8 +403,8 @@
               <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
             </svg>
           </div>
-          <h3 class="font-bold text-lg mb-2 text-slate-900">Modularer Aufbau</h3>
-          <p class="text-slate-500 text-sm leading-relaxed">
+          <h3 class="font-bold text-lg mb-2 text-slate-900" data-i18n="feat1.title">Modularer Aufbau</h3>
+          <p class="text-slate-500 text-sm leading-relaxed" data-i18n="feat1.desc">
             Flexibel zusammenstellbare Komponenten ermöglichen die Modellierung
             beliebig komplexer Logistiksysteme — ganz ohne Programmierkenntnisse.
           </p>
@@ -389,8 +417,8 @@
               <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
             </svg>
           </div>
-          <h3 class="font-bold text-lg mb-2 text-slate-900">Echtzeit-Analyse</h3>
-          <p class="text-slate-500 text-sm leading-relaxed">
+          <h3 class="font-bold text-lg mb-2 text-slate-900" data-i18n="feat2.title">Echtzeit-Analyse</h3>
+          <p class="text-slate-500 text-sm leading-relaxed" data-i18n="feat2.desc">
             Verfolgen Sie alle Simulationsparameter in Echtzeit und erhalten Sie
             detaillierte Auswertungen zur Optimierung Ihrer Systeme.
           </p>
@@ -403,8 +431,8 @@
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
             </svg>
           </div>
-          <h3 class="font-bold text-lg mb-2 text-slate-900">Automatische Systeme</h3>
-          <p class="text-slate-500 text-sm leading-relaxed">
+          <h3 class="font-bold text-lg mb-2 text-slate-900" data-i18n="feat3.title">Automatische Systeme</h3>
+          <p class="text-slate-500 text-sm leading-relaxed" data-i18n="feat3.desc">
             Speziell entwickelt für die Simulation automatischer Logistiksysteme —
             Förderbänder, Sortiersysteme, Lager und mehr.
           </p>
@@ -417,8 +445,8 @@
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
           </div>
-          <h3 class="font-bold text-lg mb-2 text-slate-900">Vollständig kostenlos</h3>
-          <p class="text-slate-500 text-sm leading-relaxed">
+          <h3 class="font-bold text-lg mb-2 text-slate-900" data-i18n="feat4.title">Vollständig kostenlos</h3>
+          <p class="text-slate-500 text-sm leading-relaxed" data-i18n="feat4.desc">
             WirthSim Professional ist Freeware — ohne Einschränkungen, ohne
             versteckte Kosten, für private und kommerzielle Nutzung.
           </p>
@@ -431,8 +459,8 @@
               <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
             </svg>
           </div>
-          <h3 class="font-bold text-lg mb-2 text-slate-900">Bildung &amp; Schulung</h3>
-          <p class="text-slate-500 text-sm leading-relaxed">
+          <h3 class="font-bold text-lg mb-2 text-slate-900" data-i18n="feat5.title">Bildung &amp; Schulung</h3>
+          <p class="text-slate-500 text-sm leading-relaxed" data-i18n="feat5.desc">
             Ideal für Hochschulen, Berufsschulen und Unternehmen. Kostenlose
             Online-Schulungen direkt durch den Entwickler Hermann Wirth.
           </p>
@@ -445,8 +473,8 @@
               <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
             </svg>
           </div>
-          <h3 class="font-bold text-lg mb-2 text-slate-900">Bewährt &amp; Zuverlässig</h3>
-          <p class="text-slate-500 text-sm leading-relaxed">
+          <h3 class="font-bold text-lg mb-2 text-slate-900" data-i18n="feat6.title">Bewährt &amp; Zuverlässig</h3>
+          <p class="text-slate-500 text-sm leading-relaxed" data-i18n="feat6.desc">
             Über 10.000 Anwender weltweit vertrauen auf WirthSim Professional
             für ihre Simulations- und Planungsaufgaben.
           </p>
@@ -465,17 +493,17 @@
       <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
 
         <div>
-          <div class="inline-block rounded-full px-4 py-1.5 text-xs font-semibold text-green-700 tracking-wider uppercase mb-6" style="background:#dcfce7;border:1px solid #bbf7d0;">
+          <div class="inline-block rounded-full px-4 py-1.5 text-xs font-semibold text-green-700 tracking-wider uppercase mb-6" style="background:#dcfce7;border:1px solid #bbf7d0;" data-i18n="training.badge">
             Weiterbildung
           </div>
-          <h2 class="text-3xl lg:text-5xl font-black mb-6 text-slate-900">
+          <h2 class="text-3xl lg:text-5xl font-black mb-6 text-slate-900" data-i18n="training.title">
             Kostenlose<br>
             <span class="gradient-text">Online-Schulung</span>
           </h2>
-          <p class="text-slate-600 text-lg leading-relaxed mb-8">
+          <p class="text-slate-600 text-lg leading-relaxed mb-8" data-i18n="training.desc">
             Nehmen Sie an einer kostenfreien Schulung teil. Diese wird online
             mittels Skype durch den Erfinder der Anwendung
-            <strong class="text-slate-900 font-semibold">Hermann Wirth</strong> persönlich durchgeführt.
+            <strong class="font-semibold">Hermann Wirth</strong> persönlich durchgeführt.
           </p>
           <ul class="space-y-4 mb-10">
             <li class="flex items-start gap-3">
@@ -484,7 +512,7 @@
                   <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
                 </svg>
               </div>
-              <span class="text-slate-700">Direkt vom Entwickler — persönliche Betreuung</span>
+              <span class="text-slate-700" data-i18n="training.li1">Direkt vom Entwickler — persönliche Betreuung</span>
             </li>
             <li class="flex items-start gap-3">
               <div class="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 mt-0.5">
@@ -492,7 +520,7 @@
                   <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
                 </svg>
               </div>
-              <span class="text-slate-700">Online via Skype — von überall aus zugänglich</span>
+              <span class="text-slate-700" data-i18n="training.li2">Online via Skype — von überall aus zugänglich</span>
             </li>
             <li class="flex items-start gap-3">
               <div class="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 mt-0.5">
@@ -500,14 +528,14 @@
                   <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
                 </svg>
               </div>
-              <span class="text-slate-700">Vollständig kostenlos — keine versteckten Gebühren</span>
+              <span class="text-slate-700" data-i18n="training.li3">Vollständig kostenlos — keine versteckten Gebühren</span>
             </li>
           </ul>
           <a href="mailto:info@wirthsim.com" class="btn-primary inline-flex items-center gap-2 px-7 py-3.5 rounded-xl font-semibold text-white">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
             </svg>
-            Schulung anfragen
+            <span data-i18n="training.cta">Schulung anfragen</span>
           </a>
         </div>
 
@@ -520,24 +548,24 @@
               </div>
               <div>
                 <div class="font-bold text-lg text-slate-900">Hermann Wirth</div>
-                <div class="text-sm text-slate-500">Entwickler &amp; Trainer</div>
+                <div class="text-sm text-slate-500" data-i18n="training.role">Entwickler &amp; Trainer</div>
               </div>
             </div>
             <div class="space-y-3">
               <div class="bg-slate-50 border border-slate-100 rounded-xl p-4">
-                <div class="text-sm font-medium mb-2 text-slate-700">Simulation Grundlagen</div>
+                <div class="text-sm font-medium mb-2 text-slate-700" data-i18n="training.skill1">Simulation Grundlagen</div>
                 <div class="w-full bg-slate-200 rounded-full h-1.5">
                   <div class="bg-gradient-to-r from-blue-500 to-purple-500 h-1.5 rounded-full" style="width:90%"></div>
                 </div>
               </div>
               <div class="bg-slate-50 border border-slate-100 rounded-xl p-4">
-                <div class="text-sm font-medium mb-2 text-slate-700">Systemmodellierung</div>
+                <div class="text-sm font-medium mb-2 text-slate-700" data-i18n="training.skill2">Systemmodellierung</div>
                 <div class="w-full bg-slate-200 rounded-full h-1.5">
                   <div class="bg-gradient-to-r from-blue-500 to-purple-500 h-1.5 rounded-full" style="width:78%"></div>
                 </div>
               </div>
               <div class="bg-slate-50 border border-slate-100 rounded-xl p-4">
-                <div class="text-sm font-medium mb-2 text-slate-700">Analyse &amp; Optimierung</div>
+                <div class="text-sm font-medium mb-2 text-slate-700" data-i18n="training.skill3">Analyse &amp; Optimierung</div>
                 <div class="w-full bg-slate-200 rounded-full h-1.5">
                   <div class="bg-gradient-to-r from-blue-500 to-purple-500 h-1.5 rounded-full" style="width:85%"></div>
                 </div>
@@ -551,8 +579,8 @@
                 </svg>
               </div>
               <div>
-                <div class="text-xs text-slate-500">Kontakt via Skype</div>
-                <div class="text-sm font-semibold text-slate-900">Jetzt Termin vereinbaren</div>
+                <div class="text-xs text-slate-500" data-i18n="training.skypeLabel">Kontakt via Skype</div>
+                <div class="text-sm font-semibold text-slate-900" data-i18n="training.skypeAction">Jetzt Termin vereinbaren</div>
               </div>
             </div>
           </div>
@@ -566,10 +594,10 @@
   <section id="news" class="py-24 lg:py-32 bg-slate-50">
     <div class="max-w-7xl mx-auto px-6 lg:px-8">
       <div class="text-center mb-10 lg:mb-16">
-        <div class="inline-block rounded-full px-4 py-1.5 text-xs font-semibold text-cyan-700 tracking-wider uppercase mb-4" style="background:#ecfeff;border:1px solid #a5f3fc;">
+        <div class="inline-block rounded-full px-4 py-1.5 text-xs font-semibold text-cyan-700 tracking-wider uppercase mb-4" style="background:#ecfeff;border:1px solid #a5f3fc;" data-i18n="news.badge">
           Neuigkeiten
         </div>
-        <h2 class="text-3xl lg:text-5xl font-black text-slate-900">
+        <h2 class="text-3xl lg:text-5xl font-black text-slate-900" data-i18n="news.title">
           Aktuelle <span class="gradient-text">Updates</span>
         </h2>
       </div>
@@ -583,12 +611,12 @@
             </div>
             <div class="flex-1">
               <div class="flex items-center gap-3 mb-2 flex-wrap">
-                <h3 class="font-bold text-lg text-slate-900">Release 1.6.0</h3>
-                <span class="bg-green-100 text-green-700 text-xs font-semibold px-3 py-1 rounded-full border border-green-200">Aktuell</span>
+                <h3 class="font-bold text-lg text-slate-900" data-i18n="news.r1Title">Release 1.6.0</h3>
+                <span class="bg-green-100 text-green-700 text-xs font-semibold px-3 py-1 rounded-full border border-green-200" data-i18n="news.r1Badge">Aktuell</span>
               </div>
-              <p class="text-slate-600 leading-relaxed">
+              <p class="text-slate-600 leading-relaxed" data-i18n="news.r1Desc">
                 Ab dem Release 1.6.0 wurden die Einschränkungen für die private Nutzung aufgehoben.
-                Es freut uns, den weltweit über <strong class="text-slate-900">10.000 WirthSim-Anwendern</strong> unser
+                Es freut uns, den weltweit über <strong class="font-semibold">10.000 WirthSim-Anwendern</strong> unser
                 Produkt nun uneingeschränkt zur Verfügung zu stellen.
               </p>
             </div>
@@ -603,8 +631,8 @@
               </svg>
             </div>
             <div class="flex-1">
-              <h3 class="font-bold text-lg mb-2 text-slate-900">Weltweite Verbreitung</h3>
-              <p class="text-slate-600 leading-relaxed">
+              <h3 class="font-bold text-lg mb-2 text-slate-900" data-i18n="news.r2Title">Weltweite Verbreitung</h3>
+              <p class="text-slate-600 leading-relaxed" data-i18n="news.r2Desc">
                 WirthSim Professional wird von über 10.000 Anwendern weltweit eingesetzt —
                 in Industrie, Bildungseinrichtungen und Forschungsprojekten.
               </p>
@@ -623,13 +651,13 @@
     <div class="absolute inset-0 grid-lines opacity-40"></div>
 
     <div class="max-w-4xl mx-auto px-6 lg:px-8 text-center relative">
-      <div class="inline-block rounded-full px-4 py-1.5 text-xs font-semibold text-blue-700 tracking-wider uppercase mb-6" style="background:#eff6ff;border:1px solid #bfdbfe;">
+      <div class="inline-block rounded-full px-4 py-1.5 text-xs font-semibold text-blue-700 tracking-wider uppercase mb-6" style="background:#eff6ff;border:1px solid #bfdbfe;" data-i18n="download.badge">
         Download
       </div>
-      <h2 class="text-4xl lg:text-6xl font-black mb-6 text-slate-900">
+      <h2 class="text-4xl lg:text-6xl font-black mb-6 text-slate-900" data-i18n="download.title">
         Jetzt <span class="gradient-text">kostenlos</span><br>herunterladen
       </h2>
-      <p class="text-slate-600 text-lg max-w-xl mx-auto mb-12">
+      <p class="text-slate-600 text-lg max-w-xl mx-auto mb-12" data-i18n="download.desc">
         WirthSim Professional — vollständig frei, ohne Registrierung,
         für die private und kommerzielle Nutzung.
       </p>
@@ -643,21 +671,21 @@
           </div>
           <div class="text-left">
             <div class="font-bold text-lg text-slate-900">WirthSim Professional</div>
-            <div class="text-sm text-slate-500">Version 1.6.0 · Freeware</div>
+            <div class="text-sm text-slate-500" data-i18n="download.cardSub">Version 1.6.0 · Freeware</div>
           </div>
         </div>
         <div class="grid grid-cols-3 gap-4 mb-6 text-center">
           <div class="bg-slate-50 border border-slate-100 rounded-xl p-3">
             <div class="font-bold text-blue-600">1.6.0</div>
-            <div class="text-xs text-slate-400 mt-0.5">Version</div>
+            <div class="text-xs text-slate-400 mt-0.5" data-i18n="download.statVersionLabel">Version</div>
           </div>
           <div class="bg-slate-50 border border-slate-100 rounded-xl p-3">
-            <div class="font-bold text-purple-600">Frei</div>
-            <div class="text-xs text-slate-400 mt-0.5">Lizenz</div>
+            <div class="font-bold text-purple-600" data-i18n="download.statLicenseValue">Frei</div>
+            <div class="text-xs text-slate-400 mt-0.5" data-i18n="download.statLicenseLabel">Lizenz</div>
           </div>
           <div class="bg-slate-50 border border-slate-100 rounded-xl p-3">
             <div class="font-bold text-cyan-600">Win</div>
-            <div class="text-xs text-slate-400 mt-0.5">Plattform</div>
+            <div class="text-xs text-slate-400 mt-0.5" data-i18n="download.statPlatformLabel">Plattform</div>
           </div>
         </div>
         <a
@@ -669,7 +697,7 @@
           <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
           </svg>
-          Download starten
+          <span data-i18n="download.btn">Download starten</span>
         </a>
       </div>
     </div>
@@ -691,14 +719,14 @@
         </div>
 
         <nav class="flex flex-wrap items-center gap-6 text-sm text-slate-500">
-          <a href="#" class="hover:text-slate-900 transition-colors">Home</a>
-          <a href="#features" class="hover:text-slate-900 transition-colors">Produkt</a>
-          <a href="#screenshot" class="hover:text-slate-900 transition-colors">Ansicht</a>
-          <a href="#training" class="hover:text-slate-900 transition-colors">Weiterbildung</a>
+          <a href="#" class="hover:text-slate-900 transition-colors" data-i18n="nav.home">Home</a>
+          <a href="#features" class="hover:text-slate-900 transition-colors" data-i18n="nav.product">Produkt</a>
+          <a href="#screenshot" class="hover:text-slate-900 transition-colors" data-i18n="nav.view">Ansicht</a>
+          <a href="#training" class="hover:text-slate-900 transition-colors" data-i18n="nav.training">Weiterbildung</a>
           <a href="https://wirthsim.com" target="_blank" rel="noopener" class="hover:text-slate-900 transition-colors">wirthsim.com</a>
         </nav>
 
-        <div class="text-xs text-slate-400">
+        <div class="text-xs text-slate-400" data-i18n="footer.copy">
           Design &amp; Bilder © Copyright Wirthsim
         </div>
       </div>
@@ -732,6 +760,9 @@
       });
     });
   </script>
+
+  <!-- Shared i18n dictionary + language switcher -->
+  <script src="../i18n.js"></script>
 
 </body>
 </html>
