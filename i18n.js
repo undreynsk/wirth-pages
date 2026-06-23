@@ -8,6 +8,21 @@
   var DEFAULT_LANG = "de";
   var STORAGE_KEY = "wirthsim-lang";
 
+  /* Single source of truth for the product version.
+     Update this one value on every release — it propagates to:
+       - {v} placeholders in the dictionary strings below,
+       - [data-version] elements (full, e.g. "1.7.3"),
+       - [data-version-short] elements (major.minor, e.g. "1.7"),
+       - the [data-download] installer link. */
+  var VERSION = "1.7.3";
+  var VERSION_SHORT = VERSION.split(".").slice(0, 2).join(".");
+  var DOWNLOAD_URL =
+    "https://wirthsim.com/files/theme-src/Download/wirthsim-" + VERSION + "-win64.msi";
+
+  function fillVersion(str) {
+    return String(str).replace(/\{v\}/g, VERSION);
+  }
+
   var LANGS = [
     { code: "de", label: "Deutsch",  short: "DE" },
     { code: "en", label: "English",  short: "EN" },
@@ -27,7 +42,7 @@
       "nav.training": "Weiterbildung",
       "nav.news": "Neuigkeiten",
       "nav.download": "Download",
-      "hero.badge": "Version 1.7.3 — Kostenlos &amp; Unbegrenzt",
+      "hero.badge": "Version {v} — Kostenlos &amp; Unbegrenzt",
       "hero.title": "Automatische<br><span class=\"gradient-text\">Logistiksysteme</span><br>simulieren",
       "hero.desc": "WirthSim Professional ist eine leistungsstarke Freeware zur Simulation automatischer Logistiksysteme — modular, intuitiv und ohne Programmierkenntnisse bedienbar. Für Industrie, Bildung und Forschung.",
       "hero.btnDownload": "Kostenlos herunterladen",
@@ -71,15 +86,15 @@
       "training.skypeAction": "Jetzt Termin vereinbaren",
       "news.badge": "Neuigkeiten",
       "news.title": "Aktuelle <span class=\"gradient-text\">Updates</span>",
-      "news.r1Title": "Release 1.7.3",
+      "news.r1Title": "Release {v}",
       "news.r1Badge": "Aktuell",
-      "news.r1Desc": "Ab dem Release 1.7.3 wurden die Einschränkungen für die private Nutzung aufgehoben. Es freut uns, den weltweit über <strong class=\"font-semibold\">10.000 WirthSim-Anwendern</strong> unser Produkt nun uneingeschränkt zur Verfügung zu stellen.",
+      "news.r1Desc": "Ab dem Release {v} wurden die Einschränkungen für die private Nutzung aufgehoben. Es freut uns, den weltweit über <strong class=\"font-semibold\">10.000 WirthSim-Anwendern</strong> unser Produkt nun uneingeschränkt zur Verfügung zu stellen.",
       "news.r2Title": "Weltweite Verbreitung",
       "news.r2Desc": "WirthSim Professional wird von über 10.000 Anwendern weltweit eingesetzt — in Industrie, Bildungseinrichtungen und Forschungsprojekten.",
       "download.badge": "Download",
       "download.title": "Jetzt <span class=\"gradient-text\">kostenlos</span><br>herunterladen",
       "download.desc": "WirthSim Professional — vollständig frei, ohne Registrierung, für die private und kommerzielle Nutzung.",
-      "download.cardSub": "Version 1.7.3 · Freeware",
+      "download.cardSub": "Version {v} · Freeware",
       "download.statVersionLabel": "Version",
       "download.statLicenseValue": "Frei",
       "download.statLicenseLabel": "Lizenz",
@@ -97,7 +112,7 @@
       "nav.training": "Training",
       "nav.news": "News",
       "nav.download": "Download",
-      "hero.badge": "Version 1.7.3 — Free &amp; Unlimited",
+      "hero.badge": "Version {v} — Free &amp; Unlimited",
       "hero.title": "Simulate automated<br><span class=\"gradient-text\">logistics systems</span>",
       "hero.desc": "WirthSim Professional is a powerful freeware tool for simulating automated logistics systems — modular, intuitive and usable without any programming knowledge. For industry, education and research.",
       "hero.btnDownload": "Download for free",
@@ -141,15 +156,15 @@
       "training.skypeAction": "Schedule an appointment now",
       "news.badge": "News",
       "news.title": "Latest <span class=\"gradient-text\">updates</span>",
-      "news.r1Title": "Release 1.7.3",
+      "news.r1Title": "Release {v}",
       "news.r1Badge": "Current",
-      "news.r1Desc": "As of release 1.7.3, the restrictions for private use have been lifted. We are pleased to now offer our product without limitations to over <strong class=\"font-semibold\">10,000 WirthSim users</strong> worldwide.",
+      "news.r1Desc": "As of release {v}, the restrictions for private use have been lifted. We are pleased to now offer our product without limitations to over <strong class=\"font-semibold\">10,000 WirthSim users</strong> worldwide.",
       "news.r2Title": "Worldwide adoption",
       "news.r2Desc": "WirthSim Professional is used by over 10,000 users worldwide — in industry, educational institutions and research projects.",
       "download.badge": "Download",
       "download.title": "Download <span class=\"gradient-text\">for free</span><br>now",
       "download.desc": "WirthSim Professional — completely free, no registration, for private and commercial use.",
-      "download.cardSub": "Version 1.7.3 · Freeware",
+      "download.cardSub": "Version {v} · Freeware",
       "download.statVersionLabel": "Version",
       "download.statLicenseValue": "Free",
       "download.statLicenseLabel": "License",
@@ -167,7 +182,7 @@
       "nav.training": "Formation",
       "nav.news": "Actualités",
       "nav.download": "Télécharger",
-      "hero.badge": "Version 1.7.3 — Gratuit &amp; illimité",
+      "hero.badge": "Version {v} — Gratuit &amp; illimité",
       "hero.title": "Simuler des systèmes<br><span class=\"gradient-text\">logistiques automatisés</span>",
       "hero.desc": "WirthSim Professional est un logiciel gratuit puissant pour la simulation de systèmes logistiques automatisés — modulaire, intuitif et utilisable sans aucune connaissance en programmation. Pour l'industrie, l'éducation et la recherche.",
       "hero.btnDownload": "Télécharger gratuitement",
@@ -211,15 +226,15 @@
       "training.skypeAction": "Prendre rendez-vous maintenant",
       "news.badge": "Actualités",
       "news.title": "Dernières <span class=\"gradient-text\">mises à jour</span>",
-      "news.r1Title": "Version 1.7.3",
+      "news.r1Title": "Version {v}",
       "news.r1Badge": "Actuelle",
-      "news.r1Desc": "À partir de la version 1.7.3, les restrictions pour l'usage privé ont été levées. Nous sommes heureux de mettre désormais notre produit à la disposition des plus de <strong class=\"font-semibold\">10 000 utilisateurs de WirthSim</strong> dans le monde, sans aucune restriction.",
+      "news.r1Desc": "À partir de la version {v}, les restrictions pour l'usage privé ont été levées. Nous sommes heureux de mettre désormais notre produit à la disposition des plus de <strong class=\"font-semibold\">10 000 utilisateurs de WirthSim</strong> dans le monde, sans aucune restriction.",
       "news.r2Title": "Diffusion mondiale",
       "news.r2Desc": "WirthSim Professional est utilisé par plus de 10 000 utilisateurs dans le monde — dans l'industrie, les établissements d'enseignement et les projets de recherche.",
       "download.badge": "Télécharger",
       "download.title": "Télécharger <span class=\"gradient-text\">gratuitement</span><br>maintenant",
       "download.desc": "WirthSim Professional — entièrement gratuit, sans inscription, pour un usage privé et commercial.",
-      "download.cardSub": "Version 1.7.3 · Logiciel gratuit",
+      "download.cardSub": "Version {v} · Logiciel gratuit",
       "download.statVersionLabel": "Version",
       "download.statLicenseValue": "Libre",
       "download.statLicenseLabel": "Licence",
@@ -237,7 +252,7 @@
       "nav.training": "Formazione",
       "nav.news": "Novità",
       "nav.download": "Download",
-      "hero.badge": "Versione 1.7.3 — Gratuito e illimitato",
+      "hero.badge": "Versione {v} — Gratuito e illimitato",
       "hero.title": "Simulare sistemi<br><span class=\"gradient-text\">logistici automatizzati</span>",
       "hero.desc": "WirthSim Professional è un potente software gratuito per la simulazione di sistemi logistici automatizzati — modulare, intuitivo e utilizzabile senza alcuna conoscenza di programmazione. Per industria, istruzione e ricerca.",
       "hero.btnDownload": "Scarica gratis",
@@ -281,15 +296,15 @@
       "training.skypeAction": "Fissa subito un appuntamento",
       "news.badge": "Novità",
       "news.title": "Ultimi <span class=\"gradient-text\">aggiornamenti</span>",
-      "news.r1Title": "Versione 1.7.3",
+      "news.r1Title": "Versione {v}",
       "news.r1Badge": "Attuale",
-      "news.r1Desc": "A partire dalla versione 1.7.3 sono state rimosse le restrizioni per l'uso privato. Siamo lieti di mettere ora il nostro prodotto a disposizione degli oltre <strong class=\"font-semibold\">10.000 utenti di WirthSim</strong> nel mondo, senza alcuna limitazione.",
+      "news.r1Desc": "A partire dalla versione {v} sono state rimosse le restrizioni per l'uso privato. Siamo lieti di mettere ora il nostro prodotto a disposizione degli oltre <strong class=\"font-semibold\">10.000 utenti di WirthSim</strong> nel mondo, senza alcuna limitazione.",
       "news.r2Title": "Diffusione mondiale",
       "news.r2Desc": "WirthSim Professional è utilizzato da oltre 10.000 utenti nel mondo — nell'industria, negli istituti di formazione e nei progetti di ricerca.",
       "download.badge": "Download",
       "download.title": "Scarica <span class=\"gradient-text\">gratis</span><br>ora",
       "download.desc": "WirthSim Professional — completamente gratuito, senza registrazione, per uso privato e commerciale.",
-      "download.cardSub": "Versione 1.7.3 · Software gratuito",
+      "download.cardSub": "Versione {v} · Software gratuito",
       "download.statVersionLabel": "Versione",
       "download.statLicenseValue": "Libera",
       "download.statLicenseLabel": "Licenza",
@@ -307,7 +322,7 @@
       "nav.training": "Обучение",
       "nav.news": "Новости",
       "nav.download": "Скачать",
-      "hero.badge": "Версия 1.7.3 — Бесплатно и без ограничений",
+      "hero.badge": "Версия {v} — Бесплатно и без ограничений",
       "hero.title": "Симуляция<br><span class=\"gradient-text\">автоматических логистических систем</span>",
       "hero.desc": "WirthSim Professional — это мощное бесплатное ПО для симуляции автоматических логистических систем: модульное, интуитивно понятное и не требующее навыков программирования. Для промышленности, образования и исследований.",
       "hero.btnDownload": "Скачать бесплатно",
@@ -351,15 +366,15 @@
       "training.skypeAction": "Назначить встречу",
       "news.badge": "Новости",
       "news.title": "Свежие <span class=\"gradient-text\">обновления</span>",
-      "news.r1Title": "Релиз 1.7.3",
+      "news.r1Title": "Релиз {v}",
       "news.r1Badge": "Актуально",
-      "news.r1Desc": "Начиная с релиза 1.7.3 сняты ограничения для частного использования. Мы рады предоставить наш продукт без ограничений более чем <strong class=\"font-semibold\">10 000 пользователям WirthSim</strong> по всему миру.",
+      "news.r1Desc": "Начиная с релиза {v} сняты ограничения для частного использования. Мы рады предоставить наш продукт без ограничений более чем <strong class=\"font-semibold\">10 000 пользователям WirthSim</strong> по всему миру.",
       "news.r2Title": "Мировое распространение",
       "news.r2Desc": "WirthSim Professional используется более чем 10 000 пользователями по всему миру — в промышленности, образовательных учреждениях и исследовательских проектах.",
       "download.badge": "Скачать",
       "download.title": "Скачайте <span class=\"gradient-text\">бесплатно</span><br>прямо сейчас",
       "download.desc": "WirthSim Professional — полностью бесплатно, без регистрации, для личного и коммерческого использования.",
-      "download.cardSub": "Версия 1.7.3 · Бесплатное ПО",
+      "download.cardSub": "Версия {v} · Бесплатное ПО",
       "download.statVersionLabel": "Версия",
       "download.statLicenseValue": "Свободно",
       "download.statLicenseLabel": "Лицензия",
@@ -377,7 +392,7 @@
       "nav.training": "培训",
       "nav.news": "新闻",
       "nav.download": "下载",
-      "hero.badge": "版本 1.7.3 — 免费且无限制",
+      "hero.badge": "版本 {v} — 免费且无限制",
       "hero.title": "仿真<br><span class=\"gradient-text\">自动化物流系统</span>",
       "hero.desc": "WirthSim Professional 是一款功能强大的免费软件，用于仿真自动化物流系统——模块化、直观，无需任何编程知识即可使用。适用于工业、教育和科研。",
       "hero.btnDownload": "免费下载",
@@ -421,15 +436,15 @@
       "training.skypeAction": "立即预约",
       "news.badge": "新闻",
       "news.title": "最新<span class=\"gradient-text\">动态</span>",
-      "news.r1Title": "版本 1.7.3",
+      "news.r1Title": "版本 {v}",
       "news.r1Badge": "最新",
-      "news.r1Desc": "从版本 1.7.3 起，已取消对个人使用的限制。我们很高兴现在能够向全球超过 <strong class=\"font-semibold\">10,000 名 WirthSim 用户</strong> 无限制地提供我们的产品。",
+      "news.r1Desc": "从版本 {v} 起，已取消对个人使用的限制。我们很高兴现在能够向全球超过 <strong class=\"font-semibold\">10,000 名 WirthSim 用户</strong> 无限制地提供我们的产品。",
       "news.r2Title": "全球应用",
       "news.r2Desc": "WirthSim Professional 被全球超过 10,000 名用户使用——遍及工业、教育机构和科研项目。",
       "download.badge": "下载",
       "download.title": "立即<span class=\"gradient-text\">免费</span><br>下载",
       "download.desc": "WirthSim Professional——完全免费，无需注册，可用于个人和商业用途。",
-      "download.cardSub": "版本 1.7.3 · 免费软件",
+      "download.cardSub": "版本 {v} · 免费软件",
       "download.statVersionLabel": "版本",
       "download.statLicenseValue": "免费",
       "download.statLicenseLabel": "许可",
@@ -453,11 +468,21 @@
   function apply(lang) {
     var dict = I18N[lang] || I18N[DEFAULT_LANG];
     document.documentElement.lang = lang;
-    if (dict["meta.title"]) document.title = dict["meta.title"];
+    if (dict["meta.title"]) document.title = fillVersion(dict["meta.title"]);
 
     document.querySelectorAll("[data-i18n]").forEach(function (el) {
       var key = el.getAttribute("data-i18n");
-      if (dict[key] != null) el.innerHTML = dict[key];
+      if (dict[key] != null) el.innerHTML = fillVersion(dict[key]);
+    });
+
+    document.querySelectorAll("[data-version]").forEach(function (el) {
+      el.textContent = VERSION;
+    });
+    document.querySelectorAll("[data-version-short]").forEach(function (el) {
+      el.textContent = VERSION_SHORT;
+    });
+    document.querySelectorAll("[data-download]").forEach(function (el) {
+      el.setAttribute("href", DOWNLOAD_URL);
     });
 
     var meta = LANGS.filter(function (l) { return l.code === lang; })[0];
