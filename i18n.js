@@ -11,11 +11,9 @@
   /* Single source of truth for the product version.
      Update this one value on every release — it propagates to:
        - {v} placeholders in the dictionary strings below,
-       - [data-version] elements (full, e.g. "1.7.3"),
-       - [data-version-short] elements (major.minor, e.g. "1.7"),
+       - [data-version] elements (full version, e.g. "1.7.3"),
        - the [data-download] installer link. */
   var VERSION = "1.7.3";
-  var VERSION_SHORT = VERSION.split(".").slice(0, 2).join(".");
   var DOWNLOAD_URL =
     "https://wirthsim.com/files/theme-src/Download/wirthsim-" + VERSION + "-win64.msi";
 
@@ -477,9 +475,6 @@
 
     document.querySelectorAll("[data-version]").forEach(function (el) {
       el.textContent = VERSION;
-    });
-    document.querySelectorAll("[data-version-short]").forEach(function (el) {
-      el.textContent = VERSION_SHORT;
     });
     document.querySelectorAll("[data-download]").forEach(function (el) {
       el.setAttribute("href", DOWNLOAD_URL);
