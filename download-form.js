@@ -19,7 +19,7 @@
   /* ──────────────────────────── CONFIG ──────────────────────────── */
   var ACCESS_KEYS = [
     "2189cfb6-9e4f-43ae-9b06-39cc7fb5f3a4", // recipient #1 — andrey.nsk@gmail.com
-    "YOUR_WEB3FORMS_KEY_FOR_SECOND_EMAIL"   // recipient #2
+    "620aed3f-e94e-4808-aa62-67b083d0cfc1"  // recipient #2 — hermann.wirth@wirthsim.com
   ];
   var ENDPOINT = "https://api.web3forms.com/submit";
   var SUBJECT = "WirthSim — neue Download-Anfrage";
