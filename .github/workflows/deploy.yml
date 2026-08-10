@@ -35,6 +35,8 @@ jobs:
         with:
           ref: ${{ github.event.inputs.ref || github.ref }}
           path: src
+          # Full history so an arbitrary commit SHA can be checked out
+          fetch-depth: 0
 
       - name: Check out gh-pages (create it on first run)
         env:
