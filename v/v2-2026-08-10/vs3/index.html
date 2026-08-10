@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WirthSim — Logistik Simulation Software</title>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-YXCQMW2BWN"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-YXCQMW2BWN');
+  </script>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; }
+
+    /* Light mesh gradient background */
+    .hero-bg {
+      background: #ffffff;
+      background-image:
+        radial-gradient(ellipse 80% 60% at 20% 30%, rgba(219,234,254,0.9) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 80% 70%, rgba(237,233,254,0.7) 0%, transparent 55%),
+        radial-gradient(ellipse 50% 40% at 50% 90%, rgba(207,250,254,0.5) 0%, transparent 50%);
+    }
+
+    /* Light card */
+    .glass {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+
+    .glass-light {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+    }
+
+    /* Gradient text */
+    .gradient-text {
+      background: linear-gradient(135deg, #2563eb 0%, #7c3aed 50%, #0891b2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Glow button */
+    .btn-primary {
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      box-shadow: 0 4px 20px rgba(37,99,235,0.35);
+      transition: all 0.3s ease;
+    }
+    .btn-primary:hover {
+      box-shadow: 0 8px 32px rgba(37,99,235,0.5);
+      transform: translateY(-2px);
+    }
+
+    /* Animated grid lines */
+    .grid-lines {
+      background-image:
+        linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    /* Feature card hover */
+    .feature-card {
+      transition: all 0.3s ease;
+      border: 1px solid #e2e8f0;
+      background: #ffffff;
+    }
+    .feature-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(37,99,235,0.25);
+      box-shadow: 0 20px 60px rgba(37,99,235,0.12);
+    }
+
+    /* Screenshot shadow */
+    .screenshot-wrap {
+      box-shadow:
+        0 0 0 1px rgba(0,0,0,0.06),
+        0 25px 80px rgba(37,99,235,0.18),
+        0 0 80px rgba(99,38,177,0.08);
+    }
+
+    /* Inline link inside translated paragraphs */
+    .link-inline {
+      color: #2563eb;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .link-inline:hover { color: #1d4ed8; }
+
+    /* Nav link underline effect */
+    .nav-link {
+      position: relative;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #2563eb, #7c3aed);
+      transition: width 0.3s ease;
+    }
+    .nav-link:hover::after { width: 100%; }
+
+    /* Section fade-in animation */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fadeUp 0.7s ease forwards; }
+
+    /* Floating orbs */
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) scale(1); }
+      50%       { transform: translateY(-20px) scale(1.05); }
+    }
+    .orb { animation: float 6s ease-in-out infinite; }
+    .orb-2 { animation: float 8s ease-in-out infinite 1s; }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #2563eb; border-radius: 3px; }
+
+    /* Mobile menu */
+    #mobile-menu { display: none; }
+    #mobile-menu.open { display: block; }
+
+    /* Language switcher dropdown */
+    [data-lang-menu] { display: none; }
+    [data-lang-menu].open { display: block; }
+    [data-lang-option][aria-current="true"] { color: #2563eb; font-weight: 600; }
+
+    /* Download form (inline) */
+    [data-download-form] input,
+    [data-download-form] textarea {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      color: #0f172a;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    [data-download-form] input::placeholder,
+    [data-download-form] textarea::placeholder { color: #94a3b8; }
+    [data-download-form] input:focus,
+    [data-download-form] textarea:focus {
+      outline: none;
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37,99,235,0.12);
+    }
+
+    @media (max-width: 1023px) {
+      section[id] { padding-top: 3rem; padding-bottom: 3rem; }
+    }
+  </style>
+</head>
+
+<body class="bg-white text-slate-900 overflow-x-hidden">
+
+  <!-- FLOATING ORB DECORATIONS -->
+  <div class="fixed pointer-events-none inset-0 overflow-hidden z-0">
+    <div class="orb absolute top-1/4 left-1/6 w-80 h-80 rounded-full bg-blue-200/50 blur-3xl"></div>
+    <div class="orb-2 absolute top-2/3 right-1/5 w-96 h-96 rounded-full bg-purple-200/40 blur-3xl"></div>
+  </div>
+
+  <!-- ─────────────────────── HEADER ─────────────────────── -->
+  <header class="fixed top-0 left-0 right-0 z-50 border-b border-slate-100" style="background:rgba(255,255,255,0.92);backdrop-filter:blur(20px);">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <div class="flex items-center justify-between h-18 py-4">
+
+        <!-- Logo -->
+        <a href="#" class="flex items-center gap-3 group">
+          <img
+            src="https://wirthsim.com/files/theme-src/images/logo/WirthSim_Logo.png"
+            alt="WirthSim Logo"
+            class="h-9 w-auto"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+          />
+          <div class="hidden w-9 h-9 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 items-center justify-center font-bold text-lg text-white">W</div>
+          <div>
+            <div class="font-bold text-lg tracking-tight text-slate-900">WirthSim</div>
+            <div class="text-xs text-slate-500 leading-none" data-i18n="header.tagline">Logistik Simulation</div>
+          </div>
+        </a>
+
+        <!-- Desktop Nav -->
+        <nav class="hidden lg:flex items-center gap-8 text-sm font-medium text-slate-600">
+          <a href="#" class="nav-link hover:text-slate-900 transition-colors" data-i18n="nav.home">Home</a>
+          <a href="#training" class="nav-link hover:text-slate-900 transition-colors" data-i18n="nav.training">Weiterbildung</a>
+          <a href="#news" class="nav-link hover:text-slate-900 transition-colors" data-i18n="nav.news">Neuigkeiten</a>
+          <a href="#features" class="nav-link hover:text-slate-900 transition-colors" data-i18n="nav.product">Produkt</a>
+          <a href="dokumentation.html" class="nav-link hover:text-slate-900 transition-colors" data-i18n="nav.docs">Dokumentation</a>
+          <a href="#about" class="nav-link hover:text-slate-900 transition-colors" data-i18n="nav.about">Wirthsim</a>
+        </nav>
+
+        <!-- CTA + Language + Burger -->
+        <div class="flex items-center gap-2 sm:gap-4">
+          <a href="#download" class="hidden sm:inline-flex btn-primary px-5 py-2.5 rounded-xl text-sm font-semibold text-white" data-i18n="nav.download">
+            Download
+          </a>
+
+          <!-- Language switcher -->
+          <div class="relative">
+            <button data-lang-toggle class="flex items-center gap-1.5 px-2.5 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors" aria-label="Sprache / Language">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.6 9h16.8M3.6 15h16.8M12 3a15 15 0 010 18M12 3a15 15 0 000 18"/>
+              </svg>
+              <span data-lang-current>DE</span>
+              <svg class="w-3 h-3 opacity-70" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </button>
+            <div data-lang-menu class="absolute right-0 mt-2 w-40 py-1 rounded-xl bg-white border border-slate-200 shadow-xl z-50">
+              <a href="#" data-lang-option="de" class="block px-4 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">Deutsch</a>
+              <a href="#" data-lang-option="en" class="block px-4 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">English</a>
+              <a href="#" data-lang-option="fr" class="block px-4 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">Français</a>
+              <a href="#" data-lang-option="it" class="block px-4 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">Italiano</a>
+              <a href="#" data-lang-option="ru" class="block px-4 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">Русский</a>
+              <a href="#" data-lang-option="zh" class="block px-4 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">中文</a>
+            </div>
+          </div>
+
+          <button id="burger" class="lg:hidden p-2 text-slate-600 hover:text-slate-900" aria-label="Menu">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div id="mobile-menu" class="lg:hidden border-t border-slate-100 bg-white">
+      <div class="px-6 py-4 flex flex-col gap-4 text-sm font-medium text-slate-600">
+        <a href="#" class="hover:text-slate-900 transition-colors" data-i18n="nav.home">Home</a>
+        <a href="#training" class="hover:text-slate-900 transition-colors" data-i18n="nav.training">Weiterbildung</a>
+        <a href="#news" class="hover:text-slate-900 transition-colors" data-i18n="nav.news">Neuigkeiten</a>
+        <a href="#features" class="hover:text-slate-900 transition-colors" data-i18n="nav.product">Produkt</a>
+        <a href="dokumentation.html" class="hover:text-slate-900 transition-colors" data-i18n="nav.docs">Dokumentation</a>
+          <a href="#about" class="hover:text-slate-900 transition-colors" data-i18n="nav.about">Wirthsim</a>
+        <a href="#download" class="btn-primary px-5 py-2.5 rounded-xl text-white text-center" data-i18n="nav.download">Download</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ─────────────────────── HERO ─────────────────────── -->
+  <section class="hero-bg grid-lines relative min-h-screen flex items-center pt-20">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 py-12 sm:py-20 lg:py-24 w-full">
+      <div class="max-w-3xl">
+
+        <h1 class="text-3xl sm:text-5xl lg:text-7xl font-black leading-[1.05] mb-6 text-slate-900" data-i18n="hero.title">
+          Logistik<br>
+          <span class="gradient-text">Simulation</span>
+        </h1>
+
+        <p class="text-lg text-slate-600 leading-relaxed mb-10 max-w-2xl" data-i18n="hero.desc">
+          Die Freeware WirthSim Professional dient der Simulation von automatischen
+          Logistiksystemen. Diese ist modular aufgebaut und erlaubt es jedem Anwender
+          oder Anwenderin ohne Kenntnisse einer Script- oder Programmiersprache
+          umfangreiche Logistiksysteme auf mehreren Ebenen (übereinander liegend)
+          oder mehreren Stockwerken abzubilden.
+        </p>
+
+        <div class="flex flex-wrap gap-4">
+          <a href="#download" class="btn-primary inline-flex items-center gap-2 px-7 py-3.5 rounded-xl font-semibold text-white text-base">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+            </svg>
+            <span data-i18n="hero.btnDownload">Download</span>
+          </a>
+          <a href="https://wirthsim.com/files/theme-src/Filme/WirthSim_de_Eco_Sim_v2.0.wmv" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl font-semibold text-slate-700 text-base border border-slate-200 bg-white hover:border-blue-300 hover:text-blue-700 transition-all shadow-sm">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <span data-i18n="screenshot.video">WirthSim Produktpräsentation</span>
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-slate-400">
+      <div class="w-px h-8 bg-gradient-to-b from-slate-300 to-transparent"></div>
+    </div>
+  </section>
+
+  <!-- ─────────────────────── SCREENSHOT ─────────────────────── -->
+  <section id="screenshot" class="py-24 lg:py-32 bg-white">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+
+      <div class="text-center mb-10 lg:mb-16">
+        <div class="inline-block glass rounded-full px-4 py-1.5 text-xs font-semibold text-blue-600 tracking-wider uppercase mb-4 border-blue-100" style="background:#eff6ff;border-color:#bfdbfe;" data-i18n="screenshot.badge">
+          Software Ansicht
+        </div>
+        <h2 class="text-3xl lg:text-5xl font-black mb-4 text-slate-900" data-i18n="screenshot.title">
+          Leistungsstark &amp; <span class="gradient-text">Intuitiv</span>
+        </h2>
+        <p class="text-slate-600 max-w-xl mx-auto" data-i18n="screenshot.desc">
+          Eine durchdachte Benutzeroberfläche, mit der Sie komplexe Logistiksysteme
+          ohne Programmierkenntnisse modellieren und simulieren.
+        </p>
+      </div>
+
+      <!-- Screenshot -->
+      <div class="relative max-w-5xl mx-auto">
+        <!-- Soft glow behind image -->
+        <div class="absolute inset-0 bg-gradient-to-r from-blue-200/40 via-purple-200/30 to-cyan-200/30 blur-3xl scale-95 rounded-3xl"></div>
+
+        <div class="relative screenshot-wrap rounded-2xl overflow-hidden">
+          <!-- Browser chrome bar — light -->
+          <div class="bg-slate-100 px-4 py-3 flex items-center gap-2 border-b border-slate-200">
+            <div class="w-3 h-3 rounded-full bg-red-400"></div>
+            <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+            <div class="w-3 h-3 rounded-full bg-green-400"></div>
+            <div class="ml-4 flex-1 bg-white rounded-md px-4 py-1 text-xs text-slate-400 max-w-sm border border-slate-200">
+              WirthSim Professional <span data-version></span>
+            </div>
+          </div>
+          <img
+            src="https://wirthsim.com/files/theme-src/WirthSim_Images/WirthSim_Ansicht.JPG"
+            alt="WirthSim Software Ansicht"
+            class="w-full block"
+          />
+        </div>
+      </div>
+
+      <!-- Video CTA -->
+      <div class="text-center mt-12">
+        <a
+          href="https://wirthsim.com/files/theme-src/Filme/WirthSim_de_Eco_Sim_v2.0.wmv"
+          class="inline-flex items-center gap-3 px-6 py-3 rounded-xl text-slate-600 hover:text-blue-700 bg-white border border-slate-200 hover:border-blue-200 hover:bg-blue-50 transition-all font-medium shadow-sm"
+          target="_blank"
+          rel="noopener"
+        >
+          <div class="w-9 h-9 rounded-full bg-blue-100 flex items-center justify-center">
+            <svg class="w-4 h-4 text-blue-600 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+          </div>
+          <span data-i18n="screenshot.video">WirthSim Produktpräsentation</span>
+          <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+          </svg>
+        </a>
+        <p class="text-xs text-slate-400 mt-3" data-i18n="screenshot.videoNote">
+          Sehen Sie hierzu unsere Präsentation (Film .wmv)
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────────────── TRAINING ─────────────────────── -->
+  <section id="training" class="py-24 lg:py-32 bg-slate-50 relative">
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+      <div class="absolute top-0 right-0 w-96 h-96 bg-blue-100/60 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
+    </div>
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 relative">
+      <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+
+        <div>
+          <div class="inline-block rounded-full px-4 py-1.5 text-xs font-semibold text-green-700 tracking-wider uppercase mb-6" style="background:#dcfce7;border:1px solid #bbf7d0;" data-i18n="training.badge">
+            Weiterbildung
+          </div>
+          <h2 class="text-3xl lg:text-5xl font-black mb-6 text-slate-900" data-i18n="training.title">
+            Kostenlose<br>
+            <span class="gradient-text">Online-Schulung</span>
+          </h2>
+          <p class="text-slate-600 text-lg leading-relaxed mb-6" data-i18n="training.desc">
+            Nehmen Sie an einer kostenfreien Schulung teil. Diese wird online
+            mittels Skype durch den Erfinder der Anwendung
+            <strong class="font-semibold">Hermann Wirth</strong> durchgeführt.
+          </p>
+          <p class="text-slate-500 text-sm leading-relaxed mb-4" data-i18n="training.p1">
+            <strong class="font-semibold">Schulungen:</strong> Die Schulungen dienen primär
+            der Vermittlung von Wissen über die automatisierte Intralogistik. Dies hinsichtlich
+            der Abbildung in einem virtuellen Umfeld.
+          </p>
+          <p class="text-slate-500 text-sm leading-relaxed mb-8" data-i18n="training.p2">
+            <strong class="font-semibold">Daten:</strong> Kurse finden nach vorheriger
+            Vereinbarung primär per Skype, Teams etc. statt.
+          </p>
+          <ul class="space-y-4 mb-10">
+            <li class="flex items-start gap-3">
+              <div class="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <svg class="w-3 h-3 text-green-600" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                </svg>
+              </div>
+              <span class="text-slate-700" data-i18n="training.li1">Direkt vom Entwickler — persönliche Betreuung</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <div class="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <svg class="w-3 h-3 text-green-600" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                </svg>
+              </div>
+              <span class="text-slate-700" data-i18n="training.li2">Online via Skype — von überall aus zugänglich</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <div class="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <svg class="w-3 h-3 text-green-600" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                </svg>
+              </div>
+              <span class="text-slate-700" data-i18n="training.li3">Vollständig kostenlos — keine versteckten Gebühren</span>
+            </li>
+          </ul>
+          <a href="mailto:info@wirthsim.com" class="btn-primary inline-flex items-center gap-2 px-7 py-3.5 rounded-xl font-semibold text-white">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+            <span data-i18n="training.cta">Schulung anfragen</span>
+          </a>
+        </div>
+
+        <!-- Illustration card -->
+        <div class="relative">
+          <div class="glass-light rounded-3xl p-5 sm:p-8">
+            <div class="flex items-center gap-4 mb-6">
+              <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center font-black text-2xl text-white">
+                HW
+              </div>
+              <div>
+                <div class="font-bold text-lg text-slate-900">Hermann Wirth</div>
+                <div class="text-sm text-slate-500" data-i18n="training.role">Entwickler &amp; Trainer</div>
+              </div>
+            </div>
+            <div class="space-y-3">
+              <div class="bg-slate-50 border border-slate-100 rounded-xl p-4">
+                <div class="text-sm font-medium mb-2 text-slate-700" data-i18n="training.skill1">Simulation Grundlagen</div>
+                <div class="w-full bg-slate-200 rounded-full h-1.5">
+                  <div class="bg-gradient-to-r from-blue-500 to-purple-500 h-1.5 rounded-full" style="width:90%"></div>
+                </div>
+              </div>
+              <div class="bg-slate-50 border border-slate-100 rounded-xl p-4">
+                <div class="text-sm font-medium mb-2 text-slate-700" data-i18n="training.skill2">Systemmodellierung</div>
+                <div class="w-full bg-slate-200 rounded-full h-1.5">
+                  <div class="bg-gradient-to-r from-blue-500 to-purple-500 h-1.5 rounded-full" style="width:78%"></div>
+                </div>
+              </div>
+              <div class="bg-slate-50 border border-slate-100 rounded-xl p-4">
+                <div class="text-sm font-medium mb-2 text-slate-700" data-i18n="training.skill3">Analyse &amp; Optimierung</div>
+                <div class="w-full bg-slate-200 rounded-full h-1.5">
+                  <div class="bg-gradient-to-r from-blue-500 to-purple-500 h-1.5 rounded-full" style="width:85%"></div>
+                </div>
+              </div>
+            </div>
+            <div class="mt-6 bg-slate-50 border border-slate-100 rounded-xl p-4 flex items-center gap-3">
+              <div class="w-9 h-9 rounded-full bg-blue-100 flex items-center justify-center">
+                <svg class="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+                  <path d="M12 0C5.373 0 0 5.373 0 12c0 6.628 5.373 12 12 12 6.628 0 12-5.372 12-12C24 5.373 18.628 0 12 0zm0 22c-5.514 0-10-4.486-10-10S6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/>
+                </svg>
+              </div>
+              <div>
+                <div class="text-xs text-slate-500" data-i18n="training.skypeLabel">Kontakt via Skype</div>
+                <div class="text-sm font-semibold text-slate-900" data-i18n="training.skypeAction">Jetzt Termin vereinbaren</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────────────── NEWS ─────────────────────── -->
+  <section id="news" class="py-24 lg:py-32 bg-white">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <div class="text-center mb-10 lg:mb-16">
+        <div class="inline-block rounded-full px-4 py-1.5 text-xs font-semibold text-cyan-700 tracking-wider uppercase mb-4" style="background:#ecfeff;border:1px solid #a5f3fc;" data-i18n="news.badge">
+          Neuigkeiten
+        </div>
+        <h2 class="text-3xl lg:text-5xl font-black text-slate-900" data-i18n="news.title">
+          Aktuelle <span class="gradient-text">Updates</span>
+        </h2>
+      </div>
+
+      <div class="max-w-3xl mx-auto space-y-6">
+
+        <div class="feature-card rounded-2xl p-5 sm:p-8 shadow-sm">
+          <div class="flex items-start gap-5">
+            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center flex-shrink-0 font-bold text-white text-sm" data-version></div>
+            <div class="flex-1">
+              <div class="flex items-center gap-3 mb-2 flex-wrap">
+                <h3 class="font-bold text-lg text-slate-900" data-i18n="news.r1Title">Release {v}</h3>
+                <span class="bg-green-100 text-green-700 text-xs font-semibold px-3 py-1 rounded-full border border-green-200" data-i18n="news.r1Badge">Aktuell</span>
+              </div>
+              <p class="text-slate-600 leading-relaxed" data-i18n="news.r1Desc">
+                Ab dem Release {v} wurden die Einschränkungen für die private Nutzung aufgehoben.
+                Es freut uns, den weltweit über <strong class="font-semibold">10.000 WirthSim-Anwendern</strong> unser
+                Produkt nun uneingeschränkt zur Verfügung zu stellen. Die Freeware WirthSim
+                Professional enthält bzgl. dem Umfang und der max. Anzahl von Elementen
+                keine Einschränkungen mehr.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="feature-card rounded-2xl p-5 sm:p-8 shadow-sm">
+          <div class="flex items-start gap-5">
+            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center flex-shrink-0">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"/>
+              </svg>
+            </div>
+            <div class="flex-1">
+              <h3 class="font-bold text-lg mb-2 text-slate-900" data-i18n="news.r2Title">Weltweite Verbreitung</h3>
+              <p class="text-slate-600 leading-relaxed" data-i18n="news.r2Desc">
+                WirthSim Professional wird von über 10.000 Anwendern weltweit eingesetzt —
+                in Industrie, Bildungseinrichtungen und Forschungsprojekten.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="feature-card rounded-2xl p-5 sm:p-8 shadow-sm">
+          <div class="flex items-start gap-5">
+            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center flex-shrink-0">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M7 11l5-5m0 0l5 5m-5-5v12"/>
+              </svg>
+            </div>
+            <div class="flex-1">
+              <div class="flex items-center gap-3 mb-2 flex-wrap">
+                <h3 class="font-bold text-lg text-slate-900" data-i18n="news.r3Title">Release 1.7.0</h3>
+                <span class="bg-slate-100 text-slate-500 text-xs font-semibold px-3 py-1 rounded-full" data-i18n="news.r3Date">12.10.2021</span>
+              </div>
+              <p class="text-slate-600 leading-relaxed" data-i18n="news.r3Desc">
+                Die neue Version 1.7.0 enthält diverse Anpassungen bzgl. der Darstellung,
+                3D und Excel In- und Exporte. Zudem ist diese signiert und enthält diverse
+                Verbesserungen bzgl. dem Installationsprozess.
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────────────── FEATURES ─────────────────────── -->
+  <section id="features" class="py-24 lg:py-32 bg-slate-50">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+
+      <div class="text-center mb-10 lg:mb-16">
+        <div class="inline-block rounded-full px-4 py-1.5 text-xs font-semibold text-purple-700 tracking-wider uppercase mb-4" style="background:#f3e8ff;border:1px solid #ddd6fe;" data-i18n="features.badge">
+          Produktfeatures
+        </div>
+        <h2 class="text-3xl lg:text-5xl font-black mb-4 text-slate-900" data-i18n="features.title">
+          Alles was Sie für die<br>
+          <span class="gradient-text">Logistiksimulation</span> brauchen
+        </h2>
+        <p class="text-slate-600 max-w-3xl mx-auto" data-i18n="features.desc">
+          WirthSim Professional ist eine kostenlose Simulations-Software und ermöglicht
+          Materialflüsse basierend auf automatischen Transportsystemen detailliert und
+          ohne jegliche Softwarekenntnisse abzubilden. Diese unterstützt innert Stunden
+          die Erstellung von nicht detaillierten Layouts für die Vertriebsphase sowie
+          innert Tagen von vertragsrelevanten Simulationen für die Planung bzw.
+          Realisierung von automatischen Transportsystemen.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <!-- Feature 1 -->
+        <div class="feature-card rounded-2xl p-5 lg:p-7 shadow-sm">
+          <div class="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center mb-5">
+            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+            </svg>
+          </div>
+          <h3 class="font-bold text-lg mb-2 text-slate-900" data-i18n="feat1.title">Modularer Aufbau</h3>
+          <p class="text-slate-500 text-sm leading-relaxed" data-i18n="feat1.desc">
+            Flexibel zusammenstellbare Komponenten ermöglichen die Modellierung
+            beliebig komplexer Logistiksysteme — ganz ohne Programmierkenntnisse.
+          </p>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="feature-card rounded-2xl p-5 lg:p-7 shadow-sm">
+          <div class="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center mb-5">
+            <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+            </svg>
+          </div>
+          <h3 class="font-bold text-lg mb-2 text-slate-900" data-i18n="feat2.title">Echtzeit-Analyse</h3>
+          <p class="text-slate-500 text-sm leading-relaxed" data-i18n="feat2.desc">
+            Verfolgen Sie alle Simulationsparameter in Echtzeit und erhalten Sie
+            detaillierte Auswertungen zur Optimierung Ihrer Systeme.
+          </p>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="feature-card rounded-2xl p-5 lg:p-7 shadow-sm">
+          <div class="w-12 h-12 rounded-xl bg-cyan-100 flex items-center justify-center mb-5">
+            <svg class="w-6 h-6 text-cyan-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
+            </svg>
+          </div>
+          <h3 class="font-bold text-lg mb-2 text-slate-900" data-i18n="feat3.title">Automatische Systeme</h3>
+          <p class="text-slate-500 text-sm leading-relaxed" data-i18n="feat3.desc">
+            Speziell entwickelt für die Simulation automatischer Logistiksysteme —
+            Förderbänder, Sortiersysteme, Lager und mehr.
+          </p>
+        </div>
+
+        <!-- Feature 4 -->
+        <div class="feature-card rounded-2xl p-5 lg:p-7 shadow-sm">
+          <div class="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center mb-5">
+            <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <h3 class="font-bold text-lg mb-2 text-slate-900" data-i18n="feat4.title">Vollständig kostenlos</h3>
+          <p class="text-slate-500 text-sm leading-relaxed" data-i18n="feat4.desc">
+            WirthSim Professional ist Freeware — ohne Einschränkungen, ohne
+            versteckte Kosten, für private und kommerzielle Nutzung.
+          </p>
+        </div>
+
+        <!-- Feature 5 -->
+        <div class="feature-card rounded-2xl p-5 lg:p-7 shadow-sm">
+          <div class="w-12 h-12 rounded-xl bg-orange-100 flex items-center justify-center mb-5">
+            <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+          </div>
+          <h3 class="font-bold text-lg mb-2 text-slate-900" data-i18n="feat5.title">Bildung &amp; Schulung</h3>
+          <p class="text-slate-500 text-sm leading-relaxed" data-i18n="feat5.desc">
+            Ideal für Hochschulen, Berufsschulen und Unternehmen. Kostenlose
+            Online-Schulungen direkt durch den Entwickler Hermann Wirth.
+          </p>
+        </div>
+
+        <!-- Feature 6 -->
+        <div class="feature-card rounded-2xl p-5 lg:p-7 shadow-sm">
+          <div class="w-12 h-12 rounded-xl bg-pink-100 flex items-center justify-center mb-5">
+            <svg class="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+            </svg>
+          </div>
+          <h3 class="font-bold text-lg mb-2 text-slate-900" data-i18n="feat6.title">Bewährt &amp; Zuverlässig</h3>
+          <p class="text-slate-500 text-sm leading-relaxed" data-i18n="feat6.desc">
+            Über 10.000 Anwender weltweit vertrauen auf WirthSim Professional
+            für ihre Simulations- und Planungsaufgaben.
+          </p>
+        </div>
+
+      </div>
+
+
+      <!-- Supported systems (text from the original wirthsim.com home page) -->
+      <div class="bg-white border border-slate-200 rounded-2xl p-6 lg:p-10 mt-6 shadow-sm">
+        <h3 class="font-bold text-xl lg:text-2xl mb-6 text-slate-900" data-i18n="support.title">
+          WirthSim unterstützt Sie bei der Simulation von:
+        </h3>
+        <ul class="grid sm:grid-cols-2 gap-x-8 gap-y-4">
+          <li class="flex items-start gap-3">
+            <div class="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+              <svg class="w-3 h-3 text-green-600" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+              </svg>
+            </div>
+            <span class="text-slate-700" data-i18n="support.i1">Paletten- und Behälterförderanlagen</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <div class="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+              <svg class="w-3 h-3 text-green-600" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+              </svg>
+            </div>
+            <span class="text-slate-700" data-i18n="support.i2">Kartontransportsystemen</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <div class="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+              <svg class="w-3 h-3 text-green-600" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+              </svg>
+            </div>
+            <span class="text-slate-700" data-i18n="support.i3">Lagersystemen</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <div class="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+              <svg class="w-3 h-3 text-green-600" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+              </svg>
+            </div>
+            <span class="text-slate-700" data-i18n="support.i4">Bearbeitungszentren bzw. Förderabläufen</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <div class="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+              <svg class="w-3 h-3 text-green-600" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+              </svg>
+            </div>
+            <span class="text-slate-700" data-i18n="support.i5">Maschinenzuführungen bzw. Wegführungen</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <div class="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+              <svg class="w-3 h-3 text-green-600" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+              </svg>
+            </div>
+            <span class="text-slate-700" data-i18n="support.i6">Elektroboden- bzw. Elektrohängebahnen</span>
+          </li>
+        </ul>
+
+        <p class="text-slate-500 text-sm leading-relaxed mt-8 mb-4" data-i18n="support.pdfIntro">
+          Eine detaillierte Beschreibung der WirthSim Funktionalitäten entnehmen Sie
+          bitte den zwei PDFs anbei.
+        </p>
+        <div class="space-y-2">
+          <a href="https://wirthsim.com/files/theme-src/Dokumentation/Short_WirthSim_v1.6.0_german.pdf" target="_blank" rel="noopener" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 hover:border-blue-200 hover:bg-blue-50 transition-colors">
+            <svg class="w-5 h-5 text-blue-600 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            <span class="flex-1 text-sm font-medium text-slate-700" data-i18n="support.pdfShort">Kurzübersicht WirthSim Professional</span>
+            <span class="text-xs text-slate-400 flex-shrink-0">PDF · 1.2 MiB</span>
+          </a>
+          <a href="https://wirthsim.com/files/theme-src/Dokumentation/All_WirthSim_v1.6.0_german.pdf" target="_blank" rel="noopener" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 hover:border-blue-200 hover:bg-blue-50 transition-colors">
+            <svg class="w-5 h-5 text-blue-600 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            <span class="flex-1 text-sm font-medium text-slate-700" data-i18n="support.pdfFull">Detaillierte Produkteübersicht inkl. allen Funktionselementen</span>
+            <span class="text-xs text-slate-400 flex-shrink-0">PDF · 2.5 MiB</span>
+          </a>
+        </div>
+      </div>    </div>
+  </section>
+
+  <!-- ─────────────────────── ABOUT ─────────────────────── -->
+  <section id="about" class="py-24 lg:py-32 relative">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 relative">
+      <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+
+        <div>
+          <div class="inline-block bg-cyan-50 border border-cyan-100 rounded-full px-4 py-1.5 text-xs font-semibold text-cyan-700 tracking-wider uppercase mb-6" data-i18n="about.badge">
+            Über Wirthsim
+          </div>
+          <h2 class="text-3xl lg:text-5xl font-black mb-6 text-slate-900" data-i18n="about.title">
+            Über <span class="gradient-text">Wirthsim</span>
+          </h2>
+          <p class="text-slate-600 leading-relaxed mb-4" data-i18n="about.p1">
+            Die Entwicklung der WirthSim Anwendung startete im Jahr 2004 und benötigte
+            vier Jahre.
+          </p>
+          <p class="text-slate-600 leading-relaxed mb-4" data-i18n="about.p2">
+            Die Entwicklungskosten konnten durch Lizenzverkäufe innerhalb von zwei
+            Jahren wieder eingespielt werden.
+          </p>
+          <p class="text-slate-600 leading-relaxed mb-4" data-i18n="about.p3">
+            Im Jahr 2017 haben wir uns entschieden, die Anwendung ohne Limitierungen
+            als Freeware der Öffentlichkeit zugänglich zu machen.
+          </p>
+          <p class="text-slate-600 leading-relaxed" data-i18n="about.p4">
+            Bei Fragen oder Anregungen stehen wir Ihnen mittels dem
+            <a href="#download" class="link-inline">Kontaktformular</a> gerne zur Verfügung.
+          </p>
+        </div>
+
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 lg:p-10 shadow-sm">
+          <div class="grid grid-cols-2 gap-6 lg:gap-8">
+            <div>
+              <div class="text-3xl lg:text-4xl font-black gradient-text mb-1" data-i18n="about.stat1Value">2004</div>
+              <div class="text-sm text-slate-500 font-medium" data-i18n="about.stat1Label">Entwicklungsstart</div>
+            </div>
+            <div>
+              <div class="text-3xl lg:text-4xl font-black gradient-text mb-1" data-i18n="about.stat2Value">4 Jahre</div>
+              <div class="text-sm text-slate-500 font-medium" data-i18n="about.stat2Label">Entwicklungszeit</div>
+            </div>
+            <div>
+              <div class="text-3xl lg:text-4xl font-black gradient-text mb-1" data-i18n="about.stat3Value">25'000</div>
+              <div class="text-sm text-slate-500 font-medium" data-i18n="about.stat3Label">Arbeitsstunden</div>
+            </div>
+            <div>
+              <div class="text-3xl lg:text-4xl font-black gradient-text mb-1" data-i18n="about.stat4Value">10'000+</div>
+              <div class="text-sm text-slate-500 font-medium" data-i18n="about.stat4Label">Downloads seit 2009</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────────────── DOWNLOAD ─────────────────────── -->
+  <section id="download" class="py-24 lg:py-32 relative overflow-hidden bg-white">
+    <!-- Soft background -->
+    <div class="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-purple-50"></div>
+    <div class="absolute inset-0 grid-lines opacity-40"></div>
+
+    <div class="max-w-4xl mx-auto px-6 lg:px-8 text-center relative">
+      <div class="inline-block rounded-full px-4 py-1.5 text-xs font-semibold text-blue-700 tracking-wider uppercase mb-6" style="background:#eff6ff;border:1px solid #bfdbfe;" data-i18n="download.badge">
+        Download
+      </div>
+      <h2 class="text-4xl lg:text-6xl font-black mb-6 text-slate-900" data-i18n="download.title">
+        Jetzt <span class="gradient-text">kostenlos</span><br>herunterladen
+      </h2>
+      <p class="text-slate-600 text-lg max-w-xl mx-auto mb-12" data-i18n="download.desc">
+        WirthSim Professional — vollständig frei, ohne Registrierung,
+        für die private und kommerzielle Nutzung.
+      </p>
+
+      <div class="glass-light rounded-3xl p-5 sm:p-8 mb-10 max-w-lg mx-auto">
+        <!-- STATE: FORM (inline) -->
+        <div data-state-form class="text-left">
+          <h3 class="text-lg font-bold text-slate-900 mb-1" data-i18n="form.title">Vor dem Download</h3>
+          <p class="text-slate-500 text-sm mb-5" data-i18n="form.desc">Bitte füllen Sie das Formular aus.</p>
+
+          <div class="text-slate-600 text-sm mb-6 leading-relaxed" data-i18n="form.intro">Laden Sie hier nach der Registration die Anwendung kostenfrei herunter.</div>
+
+          <form data-download-form novalidate class="space-y-4">
+            <!-- honeypot (hidden from humans) -->
+            <input type="text" name="botcheck" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;opacity:0;" aria-hidden="true">
+
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1.5">
+                <span data-i18n="form.name">Name und Vorname</span> <span class="text-blue-600">*</span>
+              </label>
+              <input type="text" name="name" required class="w-full px-4 py-3 rounded-xl text-sm">
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1.5">
+                <span data-i18n="form.email">E-Mail</span> <span class="text-blue-600">*</span>
+              </label>
+              <input type="email" name="email" required class="w-full px-4 py-3 rounded-xl text-sm">
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1.5">
+                <span data-i18n="form.company">Firma</span>
+                <span class="text-slate-400 text-xs">(<span data-i18n="form.companyOpt">optional</span>)</span>
+              </label>
+              <input type="text" name="company" class="w-full px-4 py-3 rounded-xl text-sm">
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1.5">
+                <span data-i18n="form.message">Mitteilung</span> <span class="text-blue-600">*</span>
+              </label>
+              <textarea name="message" rows="3" required class="w-full px-4 py-3 rounded-xl text-sm resize-none"></textarea>
+            </div>
+
+            <p class="text-xs text-slate-400" data-i18n="form.required">* Pflichtfeld</p>
+
+            <button type="submit" data-submit-btn class="btn-primary w-full flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl font-bold text-white text-base disabled:opacity-60">
+              <span data-label-idle data-i18n="form.submit">Absenden &amp; weiter</span>
+              <span data-label-sending class="hidden" data-i18n="form.sending">Wird gesendet…</span>
+            </button>
+
+            <p class="text-xs text-slate-400 text-center leading-relaxed" data-i18n="form.privacy">Ihre Daten werden ausschließlich zur Kontaktaufnahme verwendet.</p>
+          </form>
+        </div>
+
+        <!-- STATE: SUCCESS / FILE LIST (inline) -->
+        <div data-state-success class="hidden text-left border-t border-slate-100 pt-6">
+          <div class="flex items-center gap-3 mb-5">
+            <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center flex-shrink-0">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            </div>
+            <div>
+              <h3 class="text-lg font-bold text-slate-900" data-i18n="form.successTitle">Vielen Dank!</h3>
+              <p class="text-slate-500 text-sm" data-i18n="form.successDesc">Ihre Downloads stehen bereit:</p>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <a data-download download rel="noopener" class="flex items-center gap-3 px-4 py-3.5 rounded-xl btn-primary text-white font-semibold">
+              <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+              <span class="flex-1 text-sm" data-i18n="form.fileMain">WirthSim Professional — Installer (Windows)</span>
+              <span class="text-xs opacity-80" data-version></span>
+            </a>
+            <a href="https://wirthsim.com/files/theme-src/Download/Download_GR.zip" download rel="noopener" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-50 border border-slate-100 hover:bg-slate-100 transition-colors">
+              <svg class="w-5 h-5 text-blue-600 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg>
+              <span class="flex-1 text-sm font-medium text-slate-700" data-i18n="download.examples">Beispielanwendungen</span>
+              <span class="text-xs text-slate-400 flex-shrink-0">16.0 MiB</span>
+            </a>
+            <a href="https://wirthsim.com/files/theme-src/Download/WirthSim_Professional_Oracle_MySQL_DatabaseScripts.zip" download rel="noopener" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-50 border border-slate-100 hover:bg-slate-100 transition-colors">
+              <svg class="w-5 h-5 text-blue-600 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg>
+              <span class="flex-1 text-sm font-medium text-slate-700" data-i18n="download.dbScripts">Datenbank-Skripte (Oracle / MySQL)</span>
+              <span class="text-xs text-slate-400 flex-shrink-0">2.1 KiB</span>
+            </a>
+            <a href="https://wirthsim.com/files/theme-src/Download/WirthSim%20-%20PlanLogistik%20X-Mas%2024%20Weihnachtsgr%C3%BCsse.zip" download rel="noopener" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-50 border border-slate-100 hover:bg-slate-100 transition-colors">
+              <svg class="w-5 h-5 text-blue-600 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg>
+              <span class="flex-1 text-sm font-medium text-slate-700" data-i18n="download.xmas">Weihnachtsgruß 2024</span>
+              <span class="text-xs text-slate-400 flex-shrink-0">7.5 MiB</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────────────── FOOTER ─────────────────────── -->
+  <footer class="border-t border-slate-100 py-12 bg-slate-50">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+
+        <div class="flex items-center gap-3">
+          <img
+            src="https://wirthsim.com/files/theme-src/images/logo/WirthSim_Logo.png"
+            alt="WirthSim"
+            class="h-7 w-auto"
+            onerror="this.style.display='none'"
+          />
+          <span class="font-bold text-slate-700">WirthSim</span>
+        </div>
+
+        <nav class="flex flex-wrap items-center gap-6 text-sm text-slate-500">
+          <a href="#" class="hover:text-slate-900 transition-colors" data-i18n="nav.home">Home</a>
+          <a href="#training" class="hover:text-slate-900 transition-colors" data-i18n="nav.training">Weiterbildung</a>
+          <a href="#features" class="hover:text-slate-900 transition-colors" data-i18n="nav.product">Produkt</a>
+          <a href="dokumentation.html" class="hover:text-slate-900 transition-colors" data-i18n="nav.docs">Dokumentation</a>
+          <a href="https://wirthsim.com" target="_blank" rel="noopener" class="hover:text-slate-900 transition-colors">wirthsim.com</a>
+        </nav>
+
+        <div class="text-xs text-slate-400" data-i18n="footer.copy">
+          Design &amp; Bilder © Copyright Wirthsim
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    document.getElementById('burger').addEventListener('click', function() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('open');
+    });
+
+    // Close mobile menu on nav link click
+    document.querySelectorAll('#mobile-menu a').forEach(link => {
+      link.addEventListener('click', () => {
+        document.getElementById('mobile-menu').classList.remove('open');
+      });
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const href = this.getAttribute('href');
+        if (href === '#') return;
+        const target = document.querySelector(href);
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>
+
+  <!-- Shared i18n dictionary + language switcher -->
+  <script src="../i18n.js"></script>
+  <!-- Download gate form (Web3Forms) -->
+  <script src="../download-form.js"></script>
+
+</body>
+</html>
