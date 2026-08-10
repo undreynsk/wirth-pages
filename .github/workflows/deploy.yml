@@ -1,0 +1,125 @@
+name: Deploy site
+
+# Publishes to the gh-pages branch, which is what GitHub Pages serves.
+#   push to master      -> refresh the site root
+#   push tag v*         -> add a frozen snapshot under /v/<tag>/
+#   manual run          -> add a frozen snapshot of any commit under /v/<label>/
+# Snapshots are never touched by later deploys.
+
+on:
+  push:
+    branches: [master]
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: 'Commit SHA, branch or tag to freeze'
+        required: true
+      label:
+        description: 'Folder name under /v/ (e.g. v1-original)'
+        required: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: gh-pages-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the version being published
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.ref || github.ref }}
+          path: src
+
+      - name: Check out gh-pages (create it on first run)
+        env:
+          REPO: https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+        run: |
+          set -e
+          if git clone --branch gh-pages --depth 1 "$REPO" site 2>/dev/null; then
+            echo "gh-pages checked out"
+          else
+            echo "gh-pages does not exist yet — creating it"
+            git clone --depth 1 "$REPO" site
+            cd site
+            git checkout --orphan gh-pages
+            git rm -rf . >/dev/null
+            touch .nojekyll
+          fi
+
+      - name: Work out what to publish and where
+        id: target
+        run: |
+          set -e
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "mode=snapshot"                            >> "$GITHUB_OUTPUT"
+            echo "label=${{ github.event.inputs.label }}"   >> "$GITHUB_OUTPUT"
+          elif [ "${{ github.ref_type }}" = "tag" ]; then
+            echo "mode=snapshot"                            >> "$GITHUB_OUTPUT"
+            echo "label=${{ github.ref_name }}"             >> "$GITHUB_OUTPUT"
+          else
+            echo "mode=root"                                >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Copy files into gh-pages
+        run: |
+          set -e
+          if [ "${{ steps.target.outputs.mode }}" = "root" ]; then
+            # Replace the root, but keep snapshots and git metadata
+            find site -mindepth 1 -maxdepth 1 \
+              ! -name .git ! -name v ! -name .nojekyll -exec rm -rf {} +
+            DEST=site
+          else
+            DEST="site/v/${{ steps.target.outputs.label }}"
+            rm -rf "$DEST"
+            mkdir -p "$DEST"
+          fi
+          rsync -a --exclude .git --exclude .github --exclude _notes src/ "$DEST"/
+          touch site/.nojekyll
+
+      - name: Rebuild the version index
+        run: |
+          set -e
+          cd site
+          {
+            printf '%s\n' '<!doctype html>' \
+              '<html lang="de"><head><meta charset="utf-8">' \
+              '<meta name="viewport" content="width=device-width,initial-scale=1">' \
+              '<meta name="robots" content="noindex">' \
+              '<title>WirthSim — Versionen</title>' \
+              '<style>body{font:16px/1.6 system-ui,sans-serif;max-width:46rem;margin:3rem auto;padding:0 1.5rem;color:#0f172a}' \
+              'h1{font-size:1.5rem}h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:#64748b;margin-top:2.5rem}' \
+              'ul{list-style:none;padding:0}li{border-bottom:1px solid #e2e8f0;padding:.75rem 0}' \
+              'a{color:#2563eb;text-decoration:none;font-weight:600}a:hover{text-decoration:underline}' \
+              'small{color:#64748b;font-weight:400;margin-left:.5rem}</style></head><body>' \
+              '<h1>WirthSim — Versionen</h1>' \
+              '<h2>Aktuell</h2>' \
+              '<ul><li><a href="./">Letzter Stand</a> <small>master</small></li></ul>'
+            if [ -d v ] && [ -n "$(ls -A v 2>/dev/null)" ]; then
+              printf '%s\n' '<h2>Snapshots</h2><ul>'
+              for d in $(ls -1 v | sort -r); do
+                printf '<li><a href="v/%s/">%s</a> <small>VS2: <a href="v/%s/vs2/">dunkel</a> · VS3: <a href="v/%s/vs3/">hell</a></small></li>\n' "$d" "$d" "$d" "$d"
+              done
+              printf '%s\n' '</ul>'
+            fi
+            printf '%s\n' '</body></html>'
+          } > versions.html
+
+      - name: Commit and push
+        run: |
+          set -e
+          cd site
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "nothing changed"
+            exit 0
+          fi
+          git commit -m "deploy: ${{ steps.target.outputs.mode }} ${{ steps.target.outputs.label }} (from ${{ github.sha }})"
+          git push origin gh-pages
