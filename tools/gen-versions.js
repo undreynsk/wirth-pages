@@ -75,7 +75,8 @@ function renderCommits(list) {
   return '<ul class="commits">' + list.map(c => {
     const head = `<span class="sha">${esc(c.sha)}</span> ${esc(c.subject)}`;
     if (!c.body) return `<li>${head}</li>`;
-    return `<li><details><summary>${head}</summary><pre>${esc(c.body)}</pre></details></li>`;
+    // open by default — the reader collapses what they don't need
+    return `<li><details open><summary>${head}</summary><pre>${esc(c.body)}</pre></details></li>`;
   }).join('') + '</ul>';
 }
 
