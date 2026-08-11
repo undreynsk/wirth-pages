@@ -71,17 +71,22 @@ jobs:
       - name: Copy files into gh-pages
         run: |
           set -e
+          COMMON="--exclude .git --exclude .github --exclude _notes --exclude tools"
           if [ "${{ steps.target.outputs.mode }}" = "root" ]; then
             # Replace the root, but keep snapshots and git metadata
             find site -mindepth 1 -maxdepth 1 \
               ! -name .git ! -name v ! -name .nojekyll -exec rm -rf {} +
-            DEST=site
+            rsync -a $COMMON src/ site/
           else
             DEST="site/v/${{ steps.target.outputs.label }}"
             rm -rf "$DEST"
             mkdir -p "$DEST"
+            # Heavy media lives once at the site root; snapshots link to it
+            # instead of carrying their own 27 MB copy.
+            rsync -a $COMMON --exclude assets src/ "$DEST"/
+            find "$DEST" -name '*.html' -exec \
+              sed -i "s|\.\./assets/|/${{ github.event.repository.name }}/assets/|g" {} +
           fi
-          rsync -a --exclude .git --exclude .github --exclude _notes src/ "$DEST"/
           touch site/.nojekyll
 
       - name: Rebuild the version index
