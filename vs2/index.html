@@ -281,7 +281,7 @@
             </svg>
             <span data-i18n="hero.btnDownload">Download</span>
           </a>
-          <a href="https://wirthsim.com/files/theme-src/Filme/WirthSim_de_Eco_Sim_v2.0.wmv" target="_blank" rel="noopener" class="glass inline-flex items-center gap-2 px-7 py-3.5 rounded-xl font-semibold text-slate-200 text-base hover:bg-white/10 transition-all">
+          <a href="#screenshot" class="glass inline-flex items-center gap-2 px-7 py-3.5 rounded-xl font-semibold text-slate-200 text-base hover:bg-white/10 transition-all">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
               <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -339,26 +339,20 @@
         </div>
       </div>
 
-      <!-- Video CTA -->
-      <div class="text-center mt-12">
-        <a
-          href="https://wirthsim.com/files/theme-src/Filme/WirthSim_de_Eco_Sim_v2.0.wmv"
-          class="glass inline-flex items-center gap-3 px-6 py-3 rounded-xl text-slate-300 hover:text-white hover:bg-white/10 transition-all font-medium"
-          target="_blank"
-          rel="noopener"
+      <!-- Product presentation, self-hosted MP4 (the original .wmv plays in no browser) -->
+      <div class="mt-16 max-w-3xl mx-auto text-center">
+        <h3 class="font-bold text-xl lg:text-2xl mb-4 text-white" data-i18n="screenshot.video">WirthSim Produktpräsentation</h3>
+        <video
+          controls
+          preload="none"
+          playsinline
+          poster="../assets/wirthsim-eco-sim-poster.jpg"
+          class="w-full h-auto rounded-2xl glass"
         >
-          <div class="w-9 h-9 rounded-full bg-blue-600/20 flex items-center justify-center">
-            <svg class="w-4 h-4 text-blue-400 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M8 5v14l11-7z"/>
-            </svg>
-          </div>
-          <span data-i18n="screenshot.video">WirthSim Produktpräsentation</span>
-          <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-          </svg>
-        </a>
+          <source src="../assets/wirthsim-eco-sim.mp4" type="video/mp4">
+        </video>
         <p class="text-xs text-slate-500 mt-3" data-i18n="screenshot.videoNote">
-          Sehen Sie hierzu unsere Präsentation (Film .wmv)
+          Sehen Sie hierzu unsere Präsentation (2:31 Min.)
         </p>
       </div>
     </div>
@@ -726,15 +720,15 @@
           bitte den zwei PDFs anbei.
         </p>
         <div class="space-y-2">
-          <a href="https://wirthsim.com/files/theme-src/Dokumentation/Short_WirthSim_v1.6.0_german.pdf" target="_blank" rel="noopener" class="flex items-center gap-3 px-4 py-3 rounded-xl glass hover:bg-white/5 transition-colors">
+          <a href="../assets/All_WirthSim_v1.7.0_german.pdf" target="_blank" rel="noopener" class="flex items-center gap-3 px-4 py-3 rounded-xl glass hover:bg-white/5 transition-colors">
             <svg class="w-5 h-5 text-blue-400 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-            <span class="flex-1 text-sm font-medium text-slate-200" data-i18n="support.pdfShort">Kurzübersicht WirthSim Professional</span>
-            <span class="text-xs text-slate-500 flex-shrink-0">PDF · 1.2 MiB</span>
+            <span class="flex-1 text-sm font-medium text-slate-200" data-i18n="support.pdfDe">Detaillierte Produkteübersicht inkl. allen Funktionselementen — Deutsch</span>
+            <span class="text-xs text-slate-500 flex-shrink-0">PDF · 3.2 MiB</span>
           </a>
-          <a href="https://wirthsim.com/files/theme-src/Dokumentation/All_WirthSim_v1.6.0_german.pdf" target="_blank" rel="noopener" class="flex items-center gap-3 px-4 py-3 rounded-xl glass hover:bg-white/5 transition-colors">
+          <a href="../assets/All_WirthSim_v1.7.0_english.pdf" target="_blank" rel="noopener" class="flex items-center gap-3 px-4 py-3 rounded-xl glass hover:bg-white/5 transition-colors">
             <svg class="w-5 h-5 text-blue-400 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-            <span class="flex-1 text-sm font-medium text-slate-200" data-i18n="support.pdfFull">Detaillierte Produkteübersicht inkl. allen Funktionselementen</span>
-            <span class="text-xs text-slate-500 flex-shrink-0">PDF · 2.5 MiB</span>
+            <span class="flex-1 text-sm font-medium text-slate-200" data-i18n="support.pdfEn">Detaillierte Produkteübersicht inkl. allen Funktionselementen — Englisch</span>
+            <span class="text-xs text-slate-500 flex-shrink-0">PDF · 3.2 MiB</span>
           </a>
         </div>
       </div>    </div>
