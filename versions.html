@@ -1,19 +1,121 @@
 <!doctype html>
-<html lang="de"><head><meta charset="utf-8">
+<html lang="de">
+<head>
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex">
 <title>WirthSim — Versionen</title>
-<style>body{font:16px/1.6 system-ui,sans-serif;max-width:46rem;margin:3rem auto;padding:0 1.5rem;color:#0f172a}
-h1{font-size:1.5rem}h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:#64748b;margin-top:2.5rem}
-ul{list-style:none;padding:0}li{border-bottom:1px solid #e2e8f0;padding:.75rem 0}
-a{color:#2563eb;text-decoration:none;font-weight:600}a:hover{text-decoration:underline}
-small{color:#64748b;font-weight:400;margin-left:.5rem}</style></head><body>
+<style>
+  body { font: 16px/1.6 system-ui, -apple-system, sans-serif; max-width: 52rem;
+         margin: 0 auto; padding: 3rem 1.5rem 6rem; color: #0f172a; background:#fff; }
+  h1 { font-size: 1.6rem; margin-bottom: .3rem; }
+  .lead { color:#64748b; margin-top:0; }
+  h2 { font-size: .8rem; text-transform: uppercase; letter-spacing: .08em;
+       color: #64748b; margin: 2.5rem 0 .5rem; }
+  .ver { border-top: 1px solid #e2e8f0; padding: 1.25rem 0; }
+  .ver h3 { margin: 0 0 .35rem; font-size: 1.05rem; }
+  .ver h3 small { color: #94a3b8; font-weight: 400; font-size: .8rem; margin-left: .4rem; }
+  a { color: #2563eb; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .links { margin: 0 0 .8rem; display: flex; gap: 1rem; font-size: .9rem; }
+  ul.commits { list-style: none; padding: 0; margin: 0; }
+  ul.commits li { padding: .2rem 0; font-size: .93rem; color: #334155; }
+  .sha { font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+         font-size: .82rem; color: #94a3b8; margin-right: .4rem; }
+  summary { cursor: pointer; }
+  summary::marker { color: #94a3b8; }
+  pre { white-space: pre-wrap; font: .86rem/1.5 ui-monospace, SFMono-Regular, Menlo, monospace;
+        background: #f8fafc; border-left: 2px solid #e2e8f0; margin: .5rem 0 .75rem 1.1rem;
+        padding: .6rem .8rem; color: #475569; overflow-x: auto; }
+  .empty { color:#94a3b8; font-size:.9rem; margin:.2rem 0; }
+</style>
+</head>
+<body>
+
 <h1>WirthSim — Versionen</h1>
+<p class="lead">Eingefrorene Stände der Website. Zu jeder Version die Änderungen seit der vorherigen.</p>
+
 <h2>Aktuell</h2>
-<ul><li><a href="./">Letzter Stand</a> <small>master</small></li></ul>
-<h2>Snapshots</h2><ul>
-<li><a href="v/v3-2026-08-11/">v3-2026-08-11</a> <small>VS2: <a href="v/v3-2026-08-11/vs2/">dunkel</a> · VS3: <a href="v/v3-2026-08-11/vs3/">hell</a></small></li>
-<li><a href="v/v2-2026-08-10/">v2-2026-08-10</a> <small>VS2: <a href="v/v2-2026-08-10/vs2/">dunkel</a> · VS3: <a href="v/v2-2026-08-10/vs3/">hell</a></small></li>
-<li><a href="v/v1-2026-06-24/">v1-2026-06-24</a> <small>VS2: <a href="v/v1-2026-06-24/vs2/">dunkel</a> · VS3: <a href="v/v1-2026-06-24/vs3/">hell</a></small></li>
-</ul>
-</body></html>
+<section class="ver">
+  <h3><a href="./">Letzter Stand</a> <small>master</small></h3>
+  <p class="links">
+    <a href="vs2/">VS2 — dunkel</a>
+    <a href="vs3/">VS3 — hell</a>
+  </p>
+  <ul class="commits"><li><details><summary><span class="sha">6a80cf1</span> Turn the version index into a change log</summary><pre>versions.html now lists, for every snapshot, the commits it introduced —
+everything after the previous snapshot up to the snapshot's own commit.
+Commit subjects are one-liners; bodies open in a &lt;details&gt;.
+
+Each snapshot stores the commit it froze in meta.json, so the ranges survive
+across deploys. Generation moved from inline shell to tools/gen-versions.js:
+commit messages are attacker-controlled text as far as HTML is concerned, and
+string-concatenating them in bash would break the page on the first quote.</pre></details></li></ul>
+</section>
+
+<h2>Snapshots</h2>
+
+  <section class="ver">
+    <h3><a href="v/v3-2026-08-11/">v3-2026-08-11</a> <small>11.08.2026 · 00f046f</small></h3>
+    <p class="links">
+      <a href="v/v3-2026-08-11/vs2/">VS2 — dunkel</a>
+      <a href="v/v3-2026-08-11/vs3/">VS3 — hell</a>
+    </p>
+    <ul class="commits"><li><details><summary><span class="sha">00f046f</span> Embed the product video and ship the 1.7.0 documentation locally</summary><pre>The presentation was a .wmv, which no browser plays — it only ever downloaded.
+Re-encoded to H.264/AAC (CRF 16, SAR 16:15 kept, faststart) and embedded with
+preload=none plus a poster, so nothing is fetched before the visitor hits play.
+
+Product documentation now points at the local 1.7.0 PDFs, German and English,
+both offered in every interface language. The short overview is gone.
+
+assets/ holds the heavy media and is deployed once at the site root: version
+snapshots skip it and link to that single copy instead of carrying 34 MB each.</pre></details></li></ul>
+  </section>
+
+  <section class="ver">
+    <h3><a href="v/v2-2026-08-10/">v2-2026-08-10</a> <small>10.08.2026 · 0d64a4e</small></h3>
+    <p class="links">
+      <a href="v/v2-2026-08-10/vs2/">VS2 — dunkel</a>
+      <a href="v/v2-2026-08-10/vs3/">VS3 — hell</a>
+    </p>
+    <ul class="commits"><li><details><summary><span class="sha">0d64a4e</span> Port the original wirthsim.com texts into the new site</summary><pre>Home page and its three sub-pages, Produkt and Über Wirthsim now carry the
+wording from wirthsim.com instead of the copy written during the redesign.
+MovieDoc moved to its own page, generated from index.html by
+tools/build-docs-page.js so header and footer cannot drift apart.
+
+Section order follows the old home page: Ansicht, Weiterbildung, Neuigkeiten,
+then Produkt, Wirthsim, Download. The menu follows the scroll order.
+
+Removed the invented stats band and the non-clickable version badge.
+Open questions for Hermann are collected in _notes/questions-for-hermann.md
+(not published: Jekyll skips underscore folders, and the workflow excludes it).</pre></details></li><li><span class="sha">8a0cc41</span> ci: fetch full history so snapshots of arbitrary commits work</li><li><details><summary><span class="sha">cd26dfe</span> ci: publish to gh-pages with frozen version snapshots</summary><pre>Root of gh-pages follows master; tags v* and manual runs freeze a copy
+under /v/&lt;label&gt;/ so earlier versions stay reachable for review.</pre></details></li></ul>
+  </section>
+
+  <section class="ver">
+    <h3><a href="v/v1-2026-06-24/">v1-2026-06-24</a> <small>24.06.2026 · ea7191d</small></h3>
+    <p class="links">
+      <a href="v/v1-2026-06-24/vs2/">VS2 — dunkel</a>
+      <a href="v/v1-2026-06-24/vs3/">VS3 — hell</a>
+    </p>
+    <ul class="commits"><li><span class="sha">ea7191d</span> Add second recipient (hermann.wirth@wirthsim.com) to download form</li><li><details><summary><span class="sha">7efd362</span> feat: simplify download card and add intro text from original site</summary><pre>Remove the card header (icon + product name) and the Version/License/
+Platform stats grid so the form sits directly under the section
+description. Add the original wirthsim.com download intro text above the
+form as a new form.intro i18n key (translated to all 6 languages).</pre></details></li><li><details><summary><span class="sha">7a9c6d3</span> feat: show download form inline instead of behind a button</summary><pre>Replace the 'Download starten' button + modal with the form rendered
+directly in the download section. Visitors see the form immediately; on
+submit it swaps in place to the file list. Drops all modal open/close
+logic (button, overlay, Esc) from download-form.js.</pre></details></li><li><details><summary><span class="sha">9a6b170</span> feat: gate all downloads behind the form</summary><pre>Remove the direct 'Weitere Downloads' links from the download section so
+files are reachable only after submitting the form. The links remain in
+the post-submit modal state.</pre></details></li><li><details><summary><span class="sha">7ff3330</span> feat: add download gate form (Web3Forms) before file list</summary><pre>Visitors fill a short form (name, e-mail, company, message) before the
+download links appear, mirroring the original wirthsim.com flow that
+e-mails andrey.nsk@gmail.com. GitHub Pages is static and the original
+Contao form is protected by a session CSRF token + captcha, so mail is
+sent via Web3Forms. Modal with two states (form -&gt; file list); on any
+Web3Forms outage the files are shown anyway. Form labels translated in
+all 6 languages (form.* keys).</pre></details></li><li><details><summary><span class="sha">851f534</span> feat: add all 4 downloads from wirthsim.com download page</summary><pre>Add 'More downloads' block with the 3 additional files (example apps, Oracle/MySQL DB scripts, X-Mas greeting) alongside the main MSI installer. Labels translated into all 6 languages; files linked directly from wirthsim.com.</pre></details></li><li><details><summary><span class="sha">83ea3d6</span> refactor: drop version_short, always use full version</summary><pre>Remove VERSION_SHORT and [data-version-short] handling. The news icon now shows the full version (1.7.3) via data-version. Full version is used everywhere.</pre></details></li><li><details><summary><span class="sha">be4f4e0</span> refactor: single source of truth for product version</summary><pre>Introduce VERSION constant in i18n.js; all version strings now use {v} placeholder (dictionary), data-version / data-version-short attributes (plain numbers) and a data-download link. The download href falls back to the version-independent download page when JS is off. Bumping the version now means editing one line.</pre></details></li><li><details><summary><span class="sha">38880a5</span> fix: bump version to 1.7.3 and fix download link to direct MSI</summary><pre>Update WirthSim version 1.6.0 -&gt; 1.7.3 across both pages and i18n dictionary. Replace dead /index.php/download link with the actual installer (wirthsim-1.7.3-win64.msi); use download attribute instead of target=_blank for the binary.</pre></details></li><li><details><summary><span class="sha">de1a5c4</span> feat: add multilingual support (EN/FR/IT/RU/ZH) with language switcher</summary><pre>Add shared i18n.js dictionary and per-page language switcher for VS2 and VS3. Pages marked up with data-i18n; language resolved from ?lang= -&gt; localStorage -&gt; browser -&gt; de.</pre></details></li><li><details><summary><span class="sha">1938e40</span> Add Google Analytics (G-YXCQMW2BWN) to all pages</summary><pre>Co-Authored-By: Claude Sonnet 4.6 &lt;noreply@anthropic.com&gt;</pre></details></li><li><details><summary><span class="sha">db1dc21</span> feat: mobile responsive improvements for VS2 and VS3</summary><pre>Reduced hero heading size, section padding, card padding, and stats
+layout for small screens. Added CSS media query for stat border fix.
+
+Co-Authored-By: Claude Sonnet 4.6 &lt;noreply@anthropic.com&gt;</pre></details></li><li><span class="sha">392057a</span> Initial commit: VS2 dark theme and VS3 light theme</li></ul>
+  </section>
+
+</body>
+</html>
